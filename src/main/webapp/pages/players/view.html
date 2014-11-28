@@ -5,6 +5,10 @@
     <div ng-show="updateWorked" class="alert alert-success" role="alert" class="ng-hide"><b>Succès !</b> - Le joueur a été mis à jour !</div>
     <div ng-show="updateFailed" class="alert alert-error"   role="alert" class="ng-hide"><b>Erreur !</b> - Une erreur c'est produite lors de l'enregistrement des modifications. Veuillez réessayer.</div>
 
+    <!-- Show an error if failed to delete user -->
+    <div ng-show="deleteFailed" class="alert alert-error"   role="alert" class="ng-hide"><b>Erreur !</b> - Une erreur c'est produite lors de la suppression du joueur. Veuillez réessayer.</div>
+
+    <!-- Formulaire -->
     <form novalidate="novalidate" class="form-horizontal">
         <div class="control-group">
             <label class="control-label" for="inputFirstName">Prénom:</label>

@@ -1,6 +1,5 @@
 package ligueBaseball.entities;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +30,7 @@ public class Team extends DatabaseEntity
      * @param databaseConnection - Connection with database
      * @return List - All the teams.
      */
-    public static List<Team> getAllTeams(Connection databaseConnection)
+    public static List<Team> getAllTeams()
     {
         List<Team> teamList = new ArrayList<>();
         PreparedStatement statement = null;
@@ -57,7 +56,7 @@ public class Team extends DatabaseEntity
      * @param id - ID of the team we want to retrieve.
      * @return Team - If found, return entity, otherwise return null.
      */
-    public static Team getTeamWithId(Connection databaseConnection, int id)
+    public static Team getTeamWithId(int id)
     {
         PreparedStatement statement = null;
 
@@ -87,7 +86,7 @@ public class Team extends DatabaseEntity
      * @param name - Name of the team we want to retrieve.
      * @return Team - If found, return entity, otherwise return null.
      */
-    public static Team getTeamWithName(Connection databaseConnection, String name)
+    public static Team getTeamWithName(String name)
     {
         PreparedStatement statement = null;
 
@@ -173,7 +172,7 @@ public class Team extends DatabaseEntity
     public void delete() throws FailedToDeleteEntityException, TeamIsNotEmptyException
     {
         try {
-            if (!getPlayers(databaseConnection).isEmpty()) {
+            if (!getPlayers().isEmpty()) {
                 throw new TeamIsNotEmptyException(name);
             }
         } catch (FailedToRetrievePlayersOfTeamException e) {
@@ -232,7 +231,7 @@ public class Team extends DatabaseEntity
      * @return List - All the players.
      * @throws FailedToRetrievePlayersOfTeamException Failed to retrieve players of team.
      */
-    public List<Player> getPlayers(Connection databaseConnection) throws FailedToRetrievePlayersOfTeamException
+    public List<Player> getPlayers() throws FailedToRetrievePlayersOfTeamException
     {
         List<Player> players = new ArrayList<>();
         PreparedStatement statement = null;
@@ -265,7 +264,7 @@ public class Team extends DatabaseEntity
      * @param player - Player to add to team.
      * @throws FailedToSaveEntityException Failed to save entity.
      */
-    public void addPlayer(Connection databaseConnection, Player player) throws FailedToSaveEntityException
+    public void addPlayer(Player player) throws FailedToSaveEntityException
     {
         if (player.id < 0) {
             player.save();
@@ -307,7 +306,7 @@ public class Team extends DatabaseEntity
      * @param databaseConnection - Connection with database
      * @param player - Player to remove from team.
      */
-    public void removePlayer(Connection databaseConnection, Player player)
+    public void removePlayer(Player player)
     {
         if (player.id >= 0) {
             PreparedStatement statement = null;
@@ -339,12 +338,12 @@ public class Team extends DatabaseEntity
      * @param databaseConnection - Connection with database
      * @return Field - Entity if found, null otherwise.
      */
-    public Field getField(Connection databaseConnection)
+    public Field getField()
     {
         if (fieldId < 0) {
             return null;
         }
-        return Field.getFieldWithId(databaseConnection, fieldId);
+        return Field.getFieldWithId(fieldId);
     }
 
     /**
@@ -354,7 +353,7 @@ public class Team extends DatabaseEntity
      * @param field - Field to associate with this team.
      * @throws FailedToSaveEntityException Failed to save entity.
      */
-    public void setField(Connection databaseConnection, Field field) throws FailedToSaveEntityException
+    public void setField(Field field) throws FailedToSaveEntityException
     {
         if (field != null) {
             if (field.id < 0) { // Field haven't been created yet

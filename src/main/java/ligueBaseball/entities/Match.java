@@ -79,13 +79,13 @@ public class Match extends DatabaseEntity
         try {
             statement = databaseConnection.prepareStatement("SELECT * FROM match WHERE equipelocal = ? AND equipevisiteur = ? AND matchdate = ? AND matchheure = ?");
 
-            Team local = Team.getTeamWithName(databaseConnection, equipelocal);
+            Team local = Team.getTeamWithName(equipelocal);
             if (local == null) {
                 throw new TeamDoesntExistException(equipelocal);
             }
             statement.setInt(1, local.getId());
 
-            Team visitor = Team.getTeamWithName(databaseConnection, equipevisiteur);
+            Team visitor = Team.getTeamWithName(equipevisiteur);
             if (visitor == null) {
                 throw new TeamDoesntExistException(equipevisiteur);
             }
@@ -216,7 +216,7 @@ public class Match extends DatabaseEntity
         PreparedStatement statement = null;
 
         try {
-            Team team = Team.getTeamWithName(databaseConnection, teamName);
+            Team team = Team.getTeamWithName(teamName);
             if (team == null) {
                 throw new TeamDoesntExistException(teamName);
             }
@@ -375,7 +375,7 @@ public class Match extends DatabaseEntity
      */
     public Team getLocalTeam(Connection databaseConnection)
     {
-        return Team.getTeamWithId(databaseConnection, localTeamId);
+        return Team.getTeamWithId(localTeamId);
     }
 
     /**
@@ -396,7 +396,7 @@ public class Match extends DatabaseEntity
      */
     public Team getVisitorTeam(Connection databaseConnection)
     {
-        return Team.getTeamWithId(databaseConnection, visitorTeamId);
+        return Team.getTeamWithId(visitorTeamId);
     }
 
     /**
@@ -415,9 +415,9 @@ public class Match extends DatabaseEntity
      * @param databaseConnection - Connection with database
      * @return Field - If found, otherwise return null.
      */
-    public Field getField(Connection databaseConnection)
+    public Field getField()
     {
-        return Field.getFieldWithId(databaseConnection, fieldId);
+        return Field.getFieldWithId(fieldId);
     }
 
     /**

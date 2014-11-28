@@ -1,6 +1,5 @@
 package ligueBaseball.entities;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +25,7 @@ public class Field extends DatabaseEntity
      * @param id - ID of the field.
      * @return Field - If found, otherwise return null.
      */
-    public static Field getFieldWithId(Connection databaseConnection, int id)
+    public static Field getFieldWithId(int id)
     {
         PreparedStatement statement = null;
 
@@ -56,7 +55,7 @@ public class Field extends DatabaseEntity
      * @param name - Name of the field.
      * @return Field - If found, otherwise return null.
      */
-    public static Field getFieldWithName(Connection databaseConnection, String name)
+    public static Field getFieldWithName(String name)
     {
         PreparedStatement statement = null;
 

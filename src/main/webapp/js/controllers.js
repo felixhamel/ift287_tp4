@@ -51,13 +51,21 @@ app.controller(
         function success() { $scope.updateWorked = true; },
         function error() { $scope.updateFailed = true; }
       );
-      $location.path('/player-list/');
+      $location.path('/player-view/' + player.id);
     };
 
     // Delete player
     $scope.deletePlayer = function() {
-      PlayerFactory.delete({ id: $routeParams.id });
-      $location.path('/player-list');
+      PlayerFactory.delete({ id: $routeParams.id },
+        function success() {
+          $scope.deleteWorked = true;
+          $location.path('/player-list');
+        },
+        function error() {
+          $scope.deleteFailed = true;
+          $location.path('/player-view');
+        }
+      );
     };
 
     // Cancel view

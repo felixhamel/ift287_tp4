@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>Nouveau joueur</h1>
+
+    <!-- Formulaire -->
+    <form novalidate="novalidate" class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="inputFirstName">Prénom:</label>
+            <div class="controls">
+                <input type="text" id="inputFirstName" ng-model="player.firstName"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputLastName">Nom de famille:</label>
+            <div class="controls">
+                <input type="text" id="inputLastName" ng-model="player.lastName"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <a ng-click="cancel()" class="btn btn-small">Annuler</a>
+                <a ng-click="createPlayer()" class="btn btn-small btn-primary">Créer le joueur</a>
+            </div>
+        </div>
+    </form>
+</div>
