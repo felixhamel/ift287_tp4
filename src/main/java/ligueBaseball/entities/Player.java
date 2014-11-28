@@ -165,6 +165,7 @@ public class Player extends DatabaseEntity
     @Override
     protected void update() throws FailedToSaveEntityException
     {
+        Logger.info(LOG_TYPE.DEBUG, "UPDATE");
         PreparedStatement statement = null;
         try {
             id = getNextIdForTable("joueur", "joueurid");
@@ -173,10 +174,15 @@ public class Player extends DatabaseEntity
             statement.setString(2, firstName);
             statement.setInt(3, id);
             statement.executeUpdate();
+
+            Logger.info(LOG_TYPE.DEBUG, "COMMIT");
             databaseConnection.commit();
+            Logger.info(LOG_TYPE.DEBUG, "COMMITTED");
 
         } catch (SQLException | FailedToRetrieveNextKeyFromSequenceException e) {
             try {
+                Logger.info(LOG_TYPE.DEBUG, "ERROR");
+                e.printStackTrace();
                 databaseConnection.rollback();
             } catch (SQLException e1) {
                 Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
@@ -291,8 +297,28 @@ public class Player extends DatabaseEntity
      *
      * @param date - Beginning date.
      */
-    public void setDate(Date date)
+    public void setBeginningDate(Date date)
     {
         this.beginDate = date;
+    }
+
+    /**
+     * Get the beginning date.
+     *
+     * @return - Beginning date.
+     */
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+
+    /**
+     * Set the beginning date.
+     *
+     * @param date - Beginning date.
+     */
+    public void setEndDate(Date date)
+    {
+        this.endDate = date;
     }
 }

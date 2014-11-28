@@ -1,0 +1,29 @@
+<div class="container">
+    <h1>Détails sur le joueur</h1>
+
+    <!-- Show this only if the update worked -->
+    <div ng-show="updateWorked" class="alert alert-success" role="alert" class="ng-hide"><b>Succès !</b> - Le joueur a été mis à jour !</div>
+    <div ng-show="updateFailed" class="alert alert-error"   role="alert" class="ng-hide"><b>Erreur !</b> - Une erreur c'est produite lors de l'enregistrement des modifications. Veuillez réessayer.</div>
+
+    <form novalidate="novalidate" class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="inputFirstName">Prénom:</label>
+            <div class="controls">
+                <input type="text" id="inputFirstName" ng-model="player.firstName"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputLastName">Nom de famille:</label>
+            <div class="controls">
+                <input type="text" id="inputLastName" ng-model="player.lastName"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <a ng-click="cancel()" class="btn btn-small">Annuler</a>
+                <a ng-click="updatePlayer()" class="btn btn-small btn-primary">Mettre à jour</a>
+                <a ng-click="deletePlayer()" class="btn btn-small btn-danger">Détruire</a>
+            </div>
+        </div>
+    </form>
+</div>

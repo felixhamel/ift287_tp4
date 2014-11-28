@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-var app = angular.module('ngdemo.controllers', []);
+var app = angular.module('tp4.controllers', []);
 
 
 // Clear browser cache (in development mode)
@@ -14,8 +14,81 @@ app.run(function ($rootScope, $templateCache) {
     });
 });
 
+// Player controller
+app.controller(
+  'PlayerListController',
+  ['$scope', 'PlayersFactory', 'PlayerFactory', '$location', function($scope, PlayersFactory, PlayerFactory, $location) {
 
-app.controller('DummyCtrl', ['$scope', 'DummyFactory', function ($scope, DummyFactory) {
+    // Create a new player
+    $scope.createNewPlayer = function() {
+      $location.path('/player-create/');
+    }
+
+    // Edit an existing user
+    $scope.editPlayer = function(playerId) {
+      $location.path('/player-view/' + playerId);
+    };
+
+    // Delete an existing user
+    $scope.deletePlayer = function(playerId) {
+      PlayerFactory.delete({ id: playerId });
+      $scope.players = PlayersFactory.query();
+    };
+
+    // Retrieve all the players
+    $scope.players = PlayersFactory.query();
+  }
+]);
+
+// Player view controller
+app.controller(
+  'PlayerViewController',
+  ['$scope', '$routeParams', 'PlayerFactory', '$location', function($scope, $routeParams, PlayerFactory, $location) {
+
+    // Update player
+    $scope.updatePlayer = function() {
+      PlayerFactory.update($scope.player,
+        function success() { $scope.updateWorked = true; },
+        function error() { $scope.updateFailed = true; }
+      );
+      $location.path('/player-list/');
+    };
+
+    // Delete player
+    $scope.deletePlayer = function() {
+      PlayerFactory.delete({ id: $routeParams.id });
+      $location.path('/player-list');
+    };
+
+    // Cancel view
+    $scope.cancel = function() {
+      $location.path('/player-list');
+    };
+
+    // Go get informations on the player
+    $scope.player = PlayerFactory.query({ id: $routeParams.id });
+  }
+]);
+
+// Player creation controller
+app.controller(
+  'PlayerCreateController',
+  ['$scope', '$routeParams', 'PlayersFactory', '$location', function($scope, $routeParams, PlayersFactory, $location) {
+
+    // Create user
+    $scope.createNewPlayer = function() {
+      PlayersFactory.create($scope.user).
+      $location.path('/player-list');
+    };
+
+    // Cancel action
+    $scope.cancel = function() {
+      $location.path('/player-list');
+    };
+  }
+]);
+
+/*app.controller('DummyCtrl', ['$scope', 'DummyFactory', function ($scope, DummyFactory) {
     $scope.bla = 'bla from controller';
     DummyFactory.get({}, function (dummyFactory) {
         $scope.firstname = dummyFactory.firstName;
@@ -70,3 +143,4 @@ app.controller('UserCreationCtrl', ['$scope', 'UsersFactory', '$location',
             $location.path('/user-list');
         }
     }]);
+*/
