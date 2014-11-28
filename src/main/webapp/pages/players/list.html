@@ -1,0 +1,35 @@
+<div class="container">
+  <h1 style="float: left;">Liste de tout les joueurs</h1>
+  <a ng-click="createNewPlayer()" class="btn btn-small" style="float: right; margin-top: 25px;">Créer un nouveau joueur</a>
+  <div class="span12" />
+
+  <!-- Show an alert if the deletion was a success ! -->
+  <div ng-show="deleteWorked" class="alert alert-success"   role="alert" class="ng-hide"><b>Succès !</b> - Le joueur a été retiré de la base de données.</div>
+
+  <!-- Show all the players -->
+  <table class="table table-striped table-condensed">
+    <thead>
+      <tr>
+        <th style="min-width: 80px;">Prénom</th>
+        <th style="min-width: 80px;">Nom de famille</th>
+        <th style="min-width: 20px;">Numéro de chandail</th>
+        <th style="min-width: 20px;">Date de début</th>
+        <th style="width:20px;">&nbsp;</th>
+        <th style="width:20px;">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="player in players">
+        <td>{{ player.firstName }}</td>
+        <td>{{ player.lastName }}</td>
+        <td>{{ player.number }}</td>
+        <td>{{ player.beginningDate }}</td>
+        <td><a ng-click="editPlayer(player.id)" class="btn btn-small btn-primary">Edit</a>
+        </td>
+        <td><a ng-click="deletePlayer(player.id)" class="btn btn-small btn-danger">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

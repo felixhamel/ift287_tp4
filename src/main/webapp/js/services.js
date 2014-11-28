@@ -14,9 +14,30 @@
  'delete': {method:'DELETE'}
 
  */
- 
+
 var services
 
+var services = angular.module('tp4.services', ['ngResource']);
+
+/**
+ * Players
+ */
+services.factory('PlayersFactory', function ($resource) {
+  return $resource('/rest/player', {}, {
+    query:  { method: 'GET',    isArray: true },
+    create: { method: 'POST' }
+  })
+});
+
+services.factory('PlayerFactory', function($resource) {
+  return $resource('/rest/player/:id', {}, {
+    query : { method: 'GET' },
+    update: { method: 'PUT',    params: { id: '@id' } },
+    delete: { method: 'DELETE', params: { id: '@id' } }
+  })
+});
+
+/*
 var services = angular.module('ngdemo.services', ['ngResource']);
 
 services.factory('DummyFactory', function ($resource) {
@@ -39,3 +60,4 @@ services.factory('UserFactory', function ($resource) {
         delete: { method: 'DELETE', params: {id: '@id'} }
     })
 });
+*/

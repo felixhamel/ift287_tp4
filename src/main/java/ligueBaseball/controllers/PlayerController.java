@@ -3,9 +3,9 @@ package ligueBaseball.controllers;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -14,6 +14,8 @@ import javax.ws.rs.core.MediaType;
 import ligueBaseball.entities.Player;
 import ligueBaseball.exceptions.CannotFindPlayerWithIdException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
+
+import com.google.common.base.Strings;
 
 @Path("/player")
 @Produces(MediaType.APPLICATION_JSON)
@@ -57,15 +59,60 @@ public class PlayerController
      * @throws FailedToSaveEntityException
      */
     @POST
-    public Player createNewPlayer(@FormParam("firstname") final String firstName, @FormParam("lastname") final String lastName) throws FailedToSaveEntityException
+    public Player createNewPlayer(Player receivedPlayer) throws FailedToSaveEntityException
     {
         Player player = new Player();
-        player.setFirstName(firstName);
-        player.setLastName(lastName);
+        player.setFirstName(receivedPlayer.getFirstName());
+        player.setLastName(receivedPlayer.getLastName());
 
         try {
             player.save();
         } catch (FailedToSaveEntityException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return player;
+    }
+
+    /**
+     * Update a player.
+     *
+     * @param playerId
+     * @param firstName
+     * @param lastName
+     * @return
+     */
+    @PUT
+    @Path("{id}")
+    public Player updatePlayer(@PathParam("id") final int playerId, Player receivedPlayer)
+    {
+        Player player = Player.getPlayerWithId(playerId);
+        if (player == null) {
+            throw new CannotFindPlayerWithIdException(playerId);
+        }
+
+        // Validation
+        if (Strings.isNullOrEmpty(receivedPlayer.getFirstName())) {
+            // throw
+            System.out.println("Problem!");
+            return null;
+        }
+        if (Strings.isNullOrEmpty(receivedPlayer.getLastName())) {
+            // throw
+            System.out.println("Problem!");
+            return null;
+        }
+
+        // Update
+        player.setFirstName(receivedPlayer.getFirstName());
+        player.setLastName(receivedPlayer.getLastName());
+
+        // Save it !
+        try {
+            player.save();
+        } catch (FailedToSaveEntityException e) {
+            e.printStackTrace();
             throw e;
         }
 

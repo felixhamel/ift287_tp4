@@ -1,6 +1,5 @@
 package ligueBaseball.entities;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +15,8 @@ import ligueBaseball.exceptions.FailedToDeleteEntityException;
 import ligueBaseball.exceptions.FailedToRetrieveNextKeyFromSequenceException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import com.google.common.base.MoreObjects;
 
 @XmlRootElement
 public class Player extends DatabaseEntity
@@ -69,7 +70,7 @@ public class Player extends DatabaseEntity
         PreparedStatement statement = null;
 
         try {
-            statement = databaseConnection.prepareStatement("SELECT * FROM joueur LEFT OUTER JOIN faitpartie ON faitpartie.joueurid = joueur.joueurid WHERE joueur.joueurid = ?;");
+            statement = databaseConnection.prepareStatement("SELECT * FROM joueur LEFT OUTER JOIN faitpartie ON faitpartie.joueurid = joueur.joueurid AND faitpartie.datefin IS NULL WHERE joueur.joueurid = ?;");
             statement.setInt(1, id);
 
             ResultSet fieldResult = statement.executeQuery();
@@ -165,18 +166,23 @@ public class Player extends DatabaseEntity
     @Override
     protected void update() throws FailedToSaveEntityException
     {
+        Logger.info(LOG_TYPE.DEBUG, "UPDATE");
         PreparedStatement statement = null;
         try {
-            id = getNextIdForTable("joueur", "joueurid");
             statement = databaseConnection.prepareStatement("UPDATE joueur SET joueurnom = ?, joueurprenom = ? WHERE joueurid = ?;");
             statement.setString(1, lastName);
             statement.setString(2, firstName);
             statement.setInt(3, id);
             statement.executeUpdate();
-            databaseConnection.commit();
 
-        } catch (SQLException | FailedToRetrieveNextKeyFromSequenceException e) {
+            Logger.info(LOG_TYPE.DEBUG, "COMMIT");
+            databaseConnection.commit();
+            Logger.info(LOG_TYPE.DEBUG, toString());
+
+        } catch (SQLException e) {
             try {
+                Logger.info(LOG_TYPE.DEBUG, "ERROR");
+                e.printStackTrace();
                 databaseConnection.rollback();
             } catch (SQLException e1) {
                 Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
@@ -190,6 +196,13 @@ public class Player extends DatabaseEntity
     @Override
     public void delete() throws FailedToDeleteEntityException, Exception
     {
+        Team team = getTeam();
+        if (team == null) {
+            // throw
+            return;
+        }
+        team.removePlayer(this);
+
         throw new NotImplementedException();
     }
 
@@ -199,9 +212,9 @@ public class Player extends DatabaseEntity
      * @param databaseConnection - Connection with database
      * @return Team - Get the current team for the player.
      */
-    public Team getTeam(Connection databaseConnection)
+    public Team getTeam()
     {
-        return Team.getTeamWithId(databaseConnection, teamId);
+        return Team.getTeamWithId(teamId);
     }
 
     /**
@@ -211,9 +224,9 @@ public class Player extends DatabaseEntity
      * @param team - New team for the player.
      * @throws FailedToSaveEntityException Failed to save entity.
      */
-    public void setTeam(Connection databaseConnection, Team team) throws FailedToSaveEntityException
+    public void setTeam(Team team) throws FailedToSaveEntityException
     {
-        team.addPlayer(databaseConnection, this);
+        team.addPlayer(this);
     }
 
     /**
@@ -291,8 +304,34 @@ public class Player extends DatabaseEntity
      *
      * @param date - Beginning date.
      */
-    public void setDate(Date date)
+    public void setBeginningDate(Date date)
     {
         this.beginDate = date;
+    }
+
+    /**
+     * Get the beginning date.
+     *
+     * @return - Beginning date.
+     */
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+
+    /**
+     * Set the beginning date.
+     *
+     * @param date - Beginning date.
+     */
+    public void setEndDate(Date date)
+    {
+        this.endDate = date;
+    }
+
+    @Override
+    public String toString()
+    {
+        return MoreObjects.toStringHelper(this).add("firstName", firstName).add("lastName", lastName).add("number", number).toString();
     }
 }
