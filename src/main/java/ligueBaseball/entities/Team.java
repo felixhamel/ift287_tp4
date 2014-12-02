@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,6 +26,9 @@ public class Team extends DatabaseEntity
     String name;
     int fieldId = -1;
 
+    // We use the cache feature because we often use those data and very rarely update them.
+    private static Map<Integer, Team> cache = new HashMap<>();
+
     /**
      * Get all the teams.
      *
@@ -36,10 +41,11 @@ public class Team extends DatabaseEntity
         PreparedStatement statement = null;
 
         try {
-            statement = databaseConnection.prepareStatement("SELECT * FROM equipe;");
+            statement = databaseConnection.prepareStatement("SELECT equipeid FROM equipe;");
             ResultSet teams = statement.executeQuery();
             while (teams.next()) {
-                teamList.add(getEntityFromResultSet(teams));
+                teamList.add(getTeamWithId(teams.getInt("equipeid")));
+                // teamList.add(getEntityFromResultSet(teams));
             }
         } catch (SQLException e) {
             Logger.error(LOG_TYPE.EXCEPTION, e.getMessage());
@@ -58,6 +64,11 @@ public class Team extends DatabaseEntity
      */
     public static Team getTeamWithId(int id)
     {
+        // In case we cached it, use it
+        if (cache.get(id) != null) {
+            return cache.get(id);
+        }
+
         PreparedStatement statement = null;
 
         try {
@@ -116,6 +127,8 @@ public class Team extends DatabaseEntity
         entity.name = teamResultSet.getString("equipenom");
         entity.fieldId = teamResultSet.getInt("terrainid");
 
+        // Cache it
+        cache.put(entity.id, entity);
         return entity;
     }
 
@@ -140,6 +153,8 @@ public class Team extends DatabaseEntity
             }
             throw new FailedToSaveEntityException(e);
         } finally {
+            // Add to cache
+            cache.put(id, this);
             closeStatement(statement);
         }
     }
@@ -164,6 +179,8 @@ public class Team extends DatabaseEntity
             }
             throw new FailedToSaveEntityException(e);
         } finally {
+            // Update cache
+            cache.put(this.id, this);
             closeStatement(statement);
         }
     }
@@ -196,6 +213,8 @@ public class Team extends DatabaseEntity
                 }
                 throw new FailedToDeleteEntityException(e);
             } finally {
+                // Remove from cache
+                cache.remove(id);
                 closeStatement(statement);
             }
         }

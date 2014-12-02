@@ -4,18 +4,28 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ligueBaseball.entities.DatabaseEntity;
+import ligueBaseball.entities.Player;
+import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
+
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 @XmlRootElement
-public class PlayerModel
+@JsonSerialize(include = Inclusion.NON_NULL)
+public class PlayerModel extends AbstractModel
 {
     private int id;
     private String lastName;
     private String firstName;
 
-    private TeamModel team;
-
     private int numero;
     private Date dateBegin;
     private Date dateEnd;
+
+    public PlayerModel(Player player) throws FailedToRetrievePlayersOfTeamException {
+        this.createFromEntity(player);
+    }
 
     public int getId()
     {
@@ -47,16 +57,6 @@ public class PlayerModel
         this.firstName = firstName;
     }
 
-    public TeamModel getTeam()
-    {
-        return team;
-    }
-
-    public void setTeam(TeamModel team)
-    {
-        this.team = team;
-    }
-
     public int getNumero()
     {
         return numero;
@@ -85,5 +85,20 @@ public class PlayerModel
     public void setDateEnd(Date dateEnd)
     {
         this.dateEnd = dateEnd;
+    }
+
+    @Override
+    public void createFromEntity(DatabaseEntity entity) throws FailedToRetrievePlayersOfTeamException
+    {
+        if (!(entity instanceof Player)) {
+            // throw
+        }
+        Player player = (Player) entity;
+        this.setFirstName(player.getFirstName());
+        this.setLastName(player.getLastName());
+        this.setId(player.getId());
+        this.setDateBegin(player.getBeginningDate());
+        this.setDateEnd(player.getEndDate());
+        this.setNumero(player.getNumber());
     }
 }

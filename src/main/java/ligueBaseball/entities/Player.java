@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import ligueBaseball.Logger;
 import ligueBaseball.Logger.LOG_TYPE;
 import ligueBaseball.exceptions.FailedToDeleteEntityException;
@@ -18,7 +16,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.google.common.base.MoreObjects;
 
-@XmlRootElement
 public class Player extends DatabaseEntity
 {
     String lastName;

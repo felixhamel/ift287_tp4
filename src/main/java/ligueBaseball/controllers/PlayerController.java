@@ -1,5 +1,6 @@
 package ligueBaseball.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -12,8 +13,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ligueBaseball.entities.Player;
+import ligueBaseball.entities.Team;
 import ligueBaseball.exceptions.CannotFindPlayerWithIdException;
+import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
+import ligueBaseball.models.PlayerModel;
+import ligueBaseball.models.TeamModel;
 
 import com.google.common.base.Strings;
 
@@ -25,11 +30,16 @@ public class PlayerController
      * Get all the players in the database.
      *
      * @return List<Player> - All the players.
+     * @throws FailedToRetrievePlayersOfTeamException
      */
     @GET
-    public List<Player> getAllPlayers()
+    public List<PlayerModel> getAllPlayers() throws FailedToRetrievePlayersOfTeamException
     {
-        return Player.getAllPlayers();
+        List<PlayerModel> models = new ArrayList<>();
+        for (Player player : Player.getAllPlayers()) {
+            models.add(new PlayerModel(player));
+        }
+        return models;
     }
 
     /**
@@ -38,16 +48,17 @@ public class PlayerController
      * @param playerId - ID of the player we want.
      * @return Player - Wanted player with given ID.
      * @throws CannotFindPlayerWithIdException
+     * @throws FailedToRetrievePlayersOfTeamException
      */
     @GET
     @Path("{id}")
-    public Player getPlayerWithId(@PathParam("id") final int playerId) throws CannotFindPlayerWithIdException
+    public PlayerModel getPlayerWithId(@PathParam("id") final int playerId) throws CannotFindPlayerWithIdException, FailedToRetrievePlayersOfTeamException
     {
         Player player = Player.getPlayerWithId(playerId);
         if (player == null) {
             throw new CannotFindPlayerWithIdException(playerId);
         }
-        return player;
+        return new PlayerModel(player);
     }
 
     /**
@@ -57,9 +68,10 @@ public class PlayerController
      * @param lastName - Last name of the new player.
      * @return Player - The created player.
      * @throws FailedToSaveEntityException
+     * @throws FailedToRetrievePlayersOfTeamException
      */
     @POST
-    public Player createNewPlayer(Player receivedPlayer) throws FailedToSaveEntityException
+    public PlayerModel createNewPlayer(PlayerModel receivedPlayer) throws FailedToSaveEntityException, FailedToRetrievePlayersOfTeamException
     {
         Player player = new Player();
         player.setFirstName(receivedPlayer.getFirstName());
@@ -72,7 +84,7 @@ public class PlayerController
             throw e;
         }
 
-        return player;
+        return new PlayerModel(player);
     }
 
     /**
@@ -82,10 +94,11 @@ public class PlayerController
      * @param firstName
      * @param lastName
      * @return
+     * @throws FailedToRetrievePlayersOfTeamException
      */
     @PUT
     @Path("{id}")
-    public Player updatePlayer(@PathParam("id") final int playerId, Player receivedPlayer)
+    public PlayerModel updatePlayer(@PathParam("id") final int playerId, Player receivedPlayer) throws FailedToRetrievePlayersOfTeamException
     {
         Player player = Player.getPlayerWithId(playerId);
         if (player == null) {
@@ -116,7 +129,8 @@ public class PlayerController
             throw e;
         }
 
-        return player;
+        // Create model
+        return new PlayerModel(player);
     }
 
     /**
@@ -141,5 +155,18 @@ public class PlayerController
             return false;
         }
         return true;
+    }
+
+    @GET
+    @Path("{id}/team")
+    public TeamModel getTeamForPlayerIfAny(@PathParam("id") final int playerId) throws FailedToRetrievePlayersOfTeamException
+    {
+        Player player = Player.getPlayerWithId(playerId);
+        if (player == null) {
+            throw new CannotFindPlayerWithIdException(playerId);
+        }
+
+        Team team = player.getTeam();
+        return new TeamModel(team);
     }
 }
