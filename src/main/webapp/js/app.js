@@ -25,6 +25,16 @@ angular.module('tp4', ['tp4.services', 'tp4.controllers']).
         templateUrl:  'pages/players/create.html',
         controller:   'PlayerCreateController'
       });
+      $routeProvider.when('/team-list',
+      {
+        templateUrl:  'pages/teams/list.html',
+        controller:   'TeamListController'
+      });
+      $routeProvider.when('/team-create',
+      {
+        templateUrl:  'pages/teams/create.html',
+        controller:   'TeamCreateController'
+      });
       /*$routeProvider.otherwise(
       {
         redirectTo:   '/login'

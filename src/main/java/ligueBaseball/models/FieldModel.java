@@ -11,6 +11,10 @@ public class FieldModel extends AbstractModel
     private String name;
     private String address;
 
+    public FieldModel() {
+
+    }
+
     public FieldModel(Field field) {
         createFromEntity(field);
     }

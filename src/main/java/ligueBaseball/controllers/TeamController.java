@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ligueBaseball.entities.Field;
 import ligueBaseball.entities.Team;
+import ligueBaseball.exceptions.CannotCreateTeamException;
+import ligueBaseball.exceptions.CannotFindTeamWithIdException;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
+import ligueBaseball.exceptions.FailedToSaveEntityException;
 import ligueBaseball.models.TeamModel;
 
 @Path("/team")
@@ -32,13 +37,39 @@ public class TeamController
 
     @GET
     @Path("{id}")
-    public TeamModel getTeamWithId(@PathParam("id") final int teamId) throws FailedToRetrievePlayersOfTeamException
+    public TeamModel getTeamWithId(@PathParam("id") final int teamId) throws FailedToRetrievePlayersOfTeamException, CannotFindTeamWithIdException
     {
         Team team = Team.getTeamWithId(teamId);
         if (team == null) {
-            // throw
+            throw new CannotFindTeamWithIdException(teamId);
         }
-
         return new TeamModel(team, true);
+    }
+
+    @POST
+    public void createTeam(TeamModel teamModel)
+    {
+        Team team = new Team();
+        team.setName(teamModel.getName());
+
+        // Check if we need to create a new field
+        Field field = Field.getFieldWithName(teamModel.getField().getName());
+        if (field == null) {
+            field = new Field();
+            field.setName(teamModel.getField().getName());
+            field.setAddress(teamModel.getField().getAddress());
+            try {
+                field.save();
+            } catch (FailedToSaveEntityException e) {
+                throw new CannotCreateTeamException("Cannot create field associated with team.", e);
+            }
+        }
+        team.setField(field);
+
+        try {
+            team.save();
+        } catch (FailedToSaveEntityException e) {
+            throw new CannotCreateTeamException("Cannot create team.", e);
+        }
     }
 }

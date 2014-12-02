@@ -19,7 +19,7 @@ public class PlayerModel extends AbstractModel
     private String lastName;
     private String firstName;
 
-    private int numero;
+    private int number;
     private Date dateBegin;
     private Date dateEnd;
 
@@ -57,14 +57,14 @@ public class PlayerModel extends AbstractModel
         this.firstName = firstName;
     }
 
-    public int getNumero()
+    public int getNumber()
     {
-        return numero;
+        return number;
     }
 
-    public void setNumero(int numero)
+    public void setNumber(int number)
     {
-        this.numero = numero;
+        this.number = number;
     }
 
     public Date getDateBegin()
@@ -99,6 +99,6 @@ public class PlayerModel extends AbstractModel
         this.setId(player.getId());
         this.setDateBegin(player.getBeginningDate());
         this.setDateEnd(player.getEndDate());
-        this.setNumero(player.getNumber());
+        this.setNumber(player.getNumber());
     }
 }

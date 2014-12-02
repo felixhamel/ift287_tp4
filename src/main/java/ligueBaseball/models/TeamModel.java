@@ -22,6 +22,10 @@ public class TeamModel extends AbstractModel
     private FieldModel field;
     private List<PlayerModel> players;
 
+    public TeamModel() {
+
+    }
+
     public TeamModel(Team team) throws FailedToRetrievePlayersOfTeamException {
         this(team, false);
     }

@@ -37,6 +37,16 @@ services.factory('PlayerFactory', function($resource) {
   })
 });
 
+/**
+ * Teams
+ */
+services.factory('TeamsFactory', function($resource) {
+  return $resource('/rest/team', {}, {
+    query: { method: 'GET', isArray: true },
+    create: { method: 'POST' }
+  })
+});
+
 /*
 var services = angular.module('ngdemo.services', ['ngResource']);
 

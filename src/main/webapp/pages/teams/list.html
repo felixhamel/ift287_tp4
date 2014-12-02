@@ -1,0 +1,31 @@
+<div class="container">
+  <h1 style="float: left;">Liste de toutes les équipes</h1>
+  <a ng-click="createNewTeam()" class="btn btn-small" style="float: right; margin-top: 25px;">Créer nouvelle équipe</a>
+  <div class="span12" />
+
+  <!-- Show an alert if the deletion was a success ! -->
+  <div ng-show="deleteWorked" class="alert alert-success" role="alert" class="ng-hide"><b>Succès !</b> - L'équipe a été retiré de la base de données.</div>
+
+  <!-- Show all the teams -->
+  <table class="table table-striped table-condensed">
+    <thead>
+      <tr>
+        <th style="min-width: 80px;">Nom</th>
+        <th style="min-width: 80px;">Nom terrain</th>
+        <th style="min-width: 20px;">Adresse terrain</th>
+        <!--<th style="width:20px;">&nbsp;</th>
+        <th style="width:20px;">&nbsp;</th>-->
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="team in teams">
+        <td>{{ team.name }}</td>
+        <td>{{ team.field.name }}</td>
+        <td>{{ team.field.address }}</td>
+        <!--<td><a ng-click="edit(player.id)" class="btn btn-small btn-primary">Modifier</a></td>-->
+        <!--<td><a ng-click="deletePlayer(player.id)" class="btn btn-small btn-danger">Supprimer</a></td>-->
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

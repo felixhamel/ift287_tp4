@@ -1,0 +1,31 @@
+<div class="container">
+    <h1>Nouvelle équipe</h1>
+
+    <!-- Formulaire -->
+    <form novalidate="novalidate" class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="inputName">Nom équipe:</label>
+            <div class="controls">
+                <input type="text" id="inputName" ng-model="team.name"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputFieldName">Nom terrain:</label>
+            <div class="controls">
+                <input type="text" id="inputFieldName" ng-model="team.field.name"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputFieldAddress">Adresse du terrain:</label>
+            <div class="controls">
+                <input type="text" id="inputFieldAddress" ng-model="team.field.address"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <a ng-click="cancel()" class="btn btn-small">Annuler</a>
+                <a ng-click="createTeam()" class="btn btn-small btn-primary">Créer l'équipe</a>
+            </div>
+        </div>
+    </form>
+</div>

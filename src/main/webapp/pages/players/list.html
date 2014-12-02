@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 style="float: left;">Liste de tout les joueurs</h1>
+  <h1 style="float: left;">Liste de tous les joueurs</h1>
   <a ng-click="createNewPlayer()" class="btn btn-small" style="float: right; margin-top: 25px;">Créer un nouveau joueur</a>
   <div class="span12" />
 
@@ -23,10 +23,10 @@
         <td>{{ player.firstName }}</td>
         <td>{{ player.lastName }}</td>
         <td>{{ player.number }}</td>
-        <td>{{ player.beginningDate }}</td>
-        <td><a ng-click="editPlayer(player.id)" class="btn btn-small btn-primary">Edit</a>
+        <td>{{ player.dateBegin }}</td>
+        <td><a ng-click="editPlayer(player.id)" class="btn btn-small btn-primary">Modifier</a>
         </td>
-        <td><a ng-click="deletePlayer(player.id)" class="btn btn-small btn-danger">Delete</a>
+        <td><a ng-click="deletePlayer(player.id)" class="btn btn-small btn-danger">Supprimer</a>
         </td>
       </tr>
     </tbody>

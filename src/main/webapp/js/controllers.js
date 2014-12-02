@@ -96,6 +96,33 @@ app.controller(
   }
 ]);
 
+// Teams controller
+app.controller(
+  'TeamListController',
+  ['$scope', 'TeamsFactory', '$location', function($scope, TeamsFactory, $location) {
+    $scope.createNewTeam = function() {
+      $location.path('/team-create/');
+    }
+    // Retrieve all the teams
+    $scope.teams = TeamsFactory.query();
+  }
+]);
+
+// Player creation controller
+app.controller(
+  'TeamCreateController',
+  ['$scope', '$routeParams', 'TeamsFactory', '$location', function($scope, $routeParams, TeamsFactory, $location) {
+    $scope.createTeam = function() {
+      TeamsFactory.create($scope.team).
+      $location.path('/team-list');
+    };
+    // Cancel action
+    $scope.cancel = function() {
+      $location.path('/team-list');
+    };
+  }
+]);
+
 /*app.controller('DummyCtrl', ['$scope', 'DummyFactory', function ($scope, DummyFactory) {
     $scope.bla = 'bla from controller';
     DummyFactory.get({}, function (dummyFactory) {
