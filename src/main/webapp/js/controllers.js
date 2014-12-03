@@ -6,7 +6,6 @@ var app = angular.module('tp4.controllers', []);
 
 
 // Clear browser cache (in development mode)
-//
 // http://stackoverflow.com/questions/14718826/angularjs-disable-partial-caching-on-dev-machine
 app.run(function ($rootScope, $templateCache) {
     $rootScope.$on('$viewContentLoaded', function () {
@@ -19,17 +18,14 @@ app.controller(
   'PlayerListController',
   ['$scope', 'PlayersFactory', 'PlayerFactory', '$location', function($scope, PlayersFactory, PlayerFactory, $location) {
 
-    // Create a new player
-    $scope.createNewPlayer = function() {
+    $scope.createPlayer = function() {
       $location.path('/player-create/');
-    }
+    };
 
-    // Edit an existing user
     $scope.editPlayer = function(playerId) {
       $location.path('/player-view/' + playerId);
     };
 
-    // Delete an existing user
     $scope.deletePlayer = function(playerId) {
       PlayerFactory.delete({ id: playerId });
       $scope.players = PlayersFactory.query();

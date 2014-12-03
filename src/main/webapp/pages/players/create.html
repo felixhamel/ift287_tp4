@@ -1,24 +1,25 @@
 <div class="container">
-    <h1>Nouveau joueur</h1>
+    <h3>Nouveau joueur</h3>
+    <hr />
 
     <!-- Formulaire -->
-    <form novalidate="novalidate" class="form-horizontal">
-        <div class="control-group">
+    <form novalidate="novalidate" class="form">
+        <div class="form-group">
             <label class="control-label" for="inputFirstName">Prénom:</label>
             <div class="controls">
-                <input type="text" id="inputFirstName" ng-model="player.firstName"/>
+                <input type="text" id="inputFirstName" ng-model="player.firstName" class="form-control" />
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <label class="control-label" for="inputLastName">Nom de famille:</label>
             <div class="controls">
-                <input type="text" id="inputLastName" ng-model="player.lastName"/>
+                <input type="text" id="inputLastName" ng-model="player.lastName" class="form-control" />
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <div class="controls">
-                <a ng-click="cancel()" class="btn btn-small">Annuler</a>
-                <a ng-click="createPlayer()" class="btn btn-small btn-primary">Créer le joueur</a>
+                <a ng-click="cancel()" class="btn btn-default">Annuler</a>
+                <a ng-click="createPlayer()" class="btn btn-primary">Créer le joueur</a>
             </div>
         </div>
     </form>

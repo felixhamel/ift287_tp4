@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ligueBaseball.entities.DatabaseEntity;
 import ligueBaseball.entities.Player;
+import ligueBaseball.entities.Team;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -22,6 +23,8 @@ public class PlayerModel extends AbstractModel
     private int number;
     private Date dateBegin;
     private Date dateEnd;
+    
+    private TeamModel team;
 
     public PlayerModel(Player player) throws FailedToRetrievePlayersOfTeamException {
         this.createFromEntity(player);
@@ -86,6 +89,11 @@ public class PlayerModel extends AbstractModel
     {
         this.dateEnd = dateEnd;
     }
+    
+    public TeamModel getTeam()
+    {
+    	return team;
+    }
 
     @Override
     public void createFromEntity(DatabaseEntity entity) throws FailedToRetrievePlayersOfTeamException
@@ -100,5 +108,10 @@ public class PlayerModel extends AbstractModel
         this.setDateBegin(player.getBeginningDate());
         this.setDateEnd(player.getEndDate());
         this.setNumber(player.getNumber());
+        
+        Team team = player.getTeam();
+        if(team != null) {
+        	this.team = new TeamModel(player.getTeam(), false);
+        }
     }
 }
