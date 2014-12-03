@@ -19,8 +19,8 @@
         <th style="min-width: 80px;">Nom</th>
         <th style="min-width: 80px;">Nom terrain</th>
         <th style="min-width: 20px;">Adresse terrain</th>
-        <!--<th style="width:20px;">&nbsp;</th>
-        <th style="width:20px;">&nbsp;</th>-->
+        <th style="width:20px;">&nbsp;</th>
+        <!--<th style="width:20px;">&nbsp;</th>-->
       </tr>
     </thead>
     <tbody>
@@ -28,7 +28,7 @@
         <td>{{ team.name }}</td>
         <td>{{ team.field.name }}</td>
         <td>{{ team.field.address }}</td>
-        <!--<td><a ng-click="edit(player.id)" class="btn btn-small btn-primary">Modifier</a></td>-->
+        <td><a ng-href="/rest/team/{{team.id}}/xml" class="btn btn-xs btn-primary">XML</a></td>
         <!--<td><a ng-click="deletePlayer(player.id)" class="btn btn-small btn-danger">Supprimer</a></td>-->
       </tr>
     </tbody>

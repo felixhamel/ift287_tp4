@@ -96,9 +96,11 @@ app.controller(
 app.controller(
   'TeamListController',
   ['$scope', 'TeamsFactory', '$location', function($scope, TeamsFactory, $location) {
+
     $scope.createNewTeam = function() {
       $location.path('/team-create/');
-    }
+    };
+
     // Retrieve all the teams
     $scope.teams = TeamsFactory.query();
   }

@@ -2,7 +2,9 @@ package ligueBaseball.models;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import ligueBaseball.entities.DatabaseEntity;
 import ligueBaseball.entities.Player;
@@ -10,10 +12,13 @@ import ligueBaseball.entities.Team;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.NotInstanceOfClassException;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonRootName;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
-@XmlRootElement
+@XmlRootElement(name = "joueur")
+@JsonRootName("player")
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class PlayerModel extends AbstractModel
 {
@@ -27,10 +32,15 @@ public class PlayerModel extends AbstractModel
 
     private TeamModel team;
 
+    public PlayerModel() {
+
+    }
+
     public PlayerModel(Player player) throws FailedToRetrievePlayersOfTeamException {
         this.createFromEntity(player);
     }
 
+    @XmlTransient
     public int getId()
     {
         return id;
@@ -41,6 +51,8 @@ public class PlayerModel extends AbstractModel
         this.id = id;
     }
 
+    @XmlAttribute(name = "nom")
+    @JsonProperty("lastName")
     public String getLastName()
     {
         return lastName;
@@ -51,6 +63,8 @@ public class PlayerModel extends AbstractModel
         this.lastName = lastName;
     }
 
+    @XmlAttribute(name = "prenom")
+    @JsonProperty("firstName")
     public String getFirstName()
     {
         return firstName;
@@ -61,6 +75,8 @@ public class PlayerModel extends AbstractModel
         this.firstName = firstName;
     }
 
+    @XmlAttribute(name = "numero")
+    @JsonProperty("number")
     public int getNumber()
     {
         return number;
@@ -71,6 +87,8 @@ public class PlayerModel extends AbstractModel
         this.number = number;
     }
 
+    @XmlAttribute(name = "datedebut")
+    @JsonProperty("dateBegin")
     public Date getDateBegin()
     {
         return dateBegin;
@@ -81,6 +99,8 @@ public class PlayerModel extends AbstractModel
         this.dateBegin = dateBegin;
     }
 
+    @XmlTransient
+    @JsonProperty("dateEnd")
     public Date getDateEnd()
     {
         return dateEnd;
@@ -91,6 +111,8 @@ public class PlayerModel extends AbstractModel
         this.dateEnd = dateEnd;
     }
 
+    @XmlTransient
+    @JsonProperty("team")
     public TeamModel getTeam()
     {
         return team;

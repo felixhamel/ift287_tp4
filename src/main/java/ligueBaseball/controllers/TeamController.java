@@ -19,10 +19,10 @@ import ligueBaseball.exceptions.FailedToSaveEntityException;
 import ligueBaseball.models.TeamModel;
 
 @Path("/team")
-@Produces(MediaType.APPLICATION_JSON)
 public class TeamController
 {
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public List<TeamModel> getAllTeams() throws FailedToRetrievePlayersOfTeamException
     {
         List<Team> teams = Team.getAllTeams();
@@ -37,7 +37,20 @@ public class TeamController
 
     @GET
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public TeamModel getTeamWithId(@PathParam("id") final int teamId) throws FailedToRetrievePlayersOfTeamException, CannotFindTeamWithIdException
+    {
+        Team team = Team.getTeamWithId(teamId);
+        if (team == null) {
+            throw new CannotFindTeamWithIdException(teamId);
+        }
+        return new TeamModel(team, true);
+    }
+
+    @GET
+    @Path("{id}/xml")
+    @Produces(MediaType.APPLICATION_ATOM_XML)
+    public TeamModel getTeamWithIdInXMLFormat(@PathParam("id") final int teamId) throws FailedToRetrievePlayersOfTeamException, CannotFindTeamWithIdException
     {
         Team team = Team.getTeamWithId(teamId);
         if (team == null) {

@@ -3,6 +3,8 @@ package ligueBaseball.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ligueBaseball.entities.DatabaseEntity;
@@ -11,10 +13,13 @@ import ligueBaseball.entities.Team;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.NotInstanceOfClassException;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonRootName;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
-@XmlRootElement
+@XmlRootElement(name = "equipe")
+@JsonRootName("team")
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class TeamModel extends AbstractModel
 {
@@ -41,6 +46,7 @@ public class TeamModel extends AbstractModel
         }
     }
 
+    @XmlAttribute(name = "id", required = false)
     public int getId()
     {
         return id;
@@ -51,6 +57,8 @@ public class TeamModel extends AbstractModel
         this.id = id;
     }
 
+    @XmlAttribute(name = "nom")
+    @JsonProperty("name")
     public String getName()
     {
         return name;
@@ -61,6 +69,8 @@ public class TeamModel extends AbstractModel
         this.name = name;
     }
 
+    @XmlElement(name = "terrain")
+    @JsonProperty("field")
     public FieldModel getField()
     {
         return field;
@@ -71,6 +81,8 @@ public class TeamModel extends AbstractModel
         this.field = field;
     }
 
+    @XmlElement(name = "joueurs")
+    @JsonProperty("players")
     public List<PlayerModel> getPlayers()
     {
         return players;

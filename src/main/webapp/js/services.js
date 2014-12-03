@@ -28,7 +28,6 @@ services.factory('PlayersFactory', function ($resource) {
     create: { method: 'POST' }
   })
 });
-
 services.factory('PlayerFactory', function($resource) {
   return $resource('/rest/player/:id', {}, {
     query : { method: 'GET' },
@@ -46,28 +45,51 @@ services.factory('TeamsFactory', function($resource) {
     create: { method: 'POST' }
   })
 });
-
-/*
-var services = angular.module('ngdemo.services', ['ngResource']);
-
-services.factory('DummyFactory', function ($resource) {
-    return $resource('/ngdemo/web/dummy', {}, {
-        query: { method: 'GET', params: {}, isArray: false }
-    })
+services.factory('TeamFactory', function($resource) {
+  return $resource('/rest/team/:id', {}, {
+    query: { method: 'GET' },
+  })
+});
+services.factory('TeamXMLFactory', function($resource) {
+  return $resource('/rest/team/:id/xml', {}, {
+    query: { method: 'GET' },
+  })
 });
 
-services.factory('UsersFactory', function ($resource) {
-    return $resource('/ngdemo/web/users', {}, {
-        query: { method: 'GET', isArray: true },
-        create: { method: 'POST' }
-    })
+/**
+ * Officials
+ */
+services.factory('OfficialsFactory', function($resource) {
+  return $resource('/rest/official', {}, {
+    query: { method: 'GET', isArray: true },
+    create: { method: 'POST' }
+  })
+});
+services.factory('OfficialFactory', function($resource) {
+  return $resource('/rest/official/:id', {}, {
+    query: { method: 'GET' }
+  })
 });
 
-services.factory('UserFactory', function ($resource) {
-    return $resource('/ngdemo/web/users/:id', {}, {
-        show: { method: 'GET' },
-        update: { method: 'PUT', params: {id: '@id'} },
-        delete: { method: 'DELETE', params: {id: '@id'} }
-    })
+/**
+ * Matchs
+ */
+services.factory('MatchsFactory', function($resource) {
+  return $resource('/rest/match', {}, {
+    query: { method: 'GET', isArray: true },
+    create: { method: 'POST' }
+  })
 });
-*/
+services.factory('MatchFactory', function($resource) {
+  return $resource('/rest/match/:id', {}, {
+    query: { method: 'GET' },
+    update: { method: 'POST' }
+  })
+});
+services.factory('MatchOfficialsFactory', function($resource) {
+  return $resource('/rest/match/:id/official', {}, {
+    query:  { method: 'GET', isArray: true },
+    add:    { method: 'PUT', params: { id: '@id' } }, // To know which official to add
+    remove: { method: 'DELETE', params: { id: '@id' } } // To know which official to remove
+  })
+});

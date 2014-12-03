@@ -1,12 +1,17 @@
 package ligueBaseball.models;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ligueBaseball.entities.DatabaseEntity;
 import ligueBaseball.entities.Field;
 import ligueBaseball.exceptions.NotInstanceOfClassException;
 
-@XmlRootElement
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonRootName;
+
+@XmlRootElement(name = "terrain")
+@JsonRootName("field")
 public class FieldModel extends AbstractModel
 {
     private String name;
@@ -20,6 +25,8 @@ public class FieldModel extends AbstractModel
         createFromEntity(field);
     }
 
+    @XmlAttribute(name = "nom", required = true)
+    @JsonProperty("name")
     public String getName()
     {
         return name;
@@ -30,6 +37,8 @@ public class FieldModel extends AbstractModel
         this.name = name;
     }
 
+    @XmlAttribute(name = "adresse", required = true)
+    @JsonProperty("address")
     public String getAddress()
     {
         return address;

@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import ligueBaseball.Logger;
 import ligueBaseball.Logger.LOG_TYPE;
 import ligueBaseball.exceptions.FailedToDeleteEntityException;
@@ -20,7 +18,6 @@ import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
 import ligueBaseball.exceptions.TeamIsNotEmptyException;
 
-@XmlRootElement
 public class Team extends DatabaseEntity
 {
     String name;
