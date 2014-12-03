@@ -210,7 +210,7 @@ public class Match extends DatabaseEntity
      * @return List of match
      * @throws TeamDoesntExistException Team doesn't exists.
      */
-    public static List<Match> getMatchForTeam(Connection databaseConnection, String teamName) throws TeamDoesntExistException
+    public static List<Match> getMatchForTeam(String teamName) throws TeamDoesntExistException
     {
         List<Match> MatchTeam = new ArrayList<>();
         PreparedStatement statement = null;
@@ -254,7 +254,7 @@ public class Match extends DatabaseEntity
      * @param databaseConnection - Connection with database - Connection
      * @return list of all match
      */
-    public static List<Match> getAllMatch(Connection databaseConnection)
+    public static List<Match> getAllMatch()
     {
         List<Match> Match = new ArrayList<>();
         PreparedStatement statement = null;
@@ -284,7 +284,7 @@ public class Match extends DatabaseEntity
      * @param date - Date of the match
      * @return list of match after the date
      */
-    public static List<Match> getMatchWithDate(Connection databaseConnection, String date)
+    public static List<Match> getMatchWithDate(String date)
     {
         List<Match> MatchDate = new ArrayList<>();
         PreparedStatement statement = null;
@@ -373,7 +373,7 @@ public class Match extends DatabaseEntity
      * @param databaseConnection - Connection with database
      * @return Team - If found, otherwise return null.
      */
-    public Team getLocalTeam(Connection databaseConnection)
+    public Team getLocalTeam()
     {
         return Team.getTeamWithId(localTeamId);
     }
@@ -394,7 +394,7 @@ public class Match extends DatabaseEntity
      * @param databaseConnection - Connection with database
      * @return Team - If found, otherwise return null.
      */
-    public Team getVisitorTeam(Connection databaseConnection)
+    public Team getVisitorTeam()
     {
         return Team.getTeamWithId(visitorTeamId);
     }
