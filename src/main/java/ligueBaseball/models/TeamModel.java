@@ -9,6 +9,7 @@ import ligueBaseball.entities.DatabaseEntity;
 import ligueBaseball.entities.Player;
 import ligueBaseball.entities.Team;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
+import ligueBaseball.exceptions.NotInstanceOfClassException;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
@@ -84,7 +85,7 @@ public class TeamModel extends AbstractModel
     public void createFromEntity(DatabaseEntity entity) throws FailedToRetrievePlayersOfTeamException
     {
         if (!(entity instanceof Team)) {
-            // throw
+            throw new NotInstanceOfClassException(this.getClass());
         }
 
         // Extract informations from team

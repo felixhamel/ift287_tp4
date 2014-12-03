@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ligueBaseball.entities.DatabaseEntity;
 import ligueBaseball.entities.Field;
+import ligueBaseball.exceptions.NotInstanceOfClassException;
 
 @XmlRootElement
 public class FieldModel extends AbstractModel
@@ -43,8 +44,9 @@ public class FieldModel extends AbstractModel
     public void createFromEntity(DatabaseEntity entity)
     {
         if (!(entity instanceof Field)) {
-            // throw
+            throw new NotInstanceOfClassException(this.getClass());
         }
+
         Field field = (Field) entity;
         this.setAddress(field.getAddress());
         this.setName(field.getName());
