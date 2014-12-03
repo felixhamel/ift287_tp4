@@ -13,8 +13,9 @@
   <header class="container">
     <div class="row">
       <div class="col-md-12">
-        <h2>Ligue de Baseball</h2>
+        <h2 style="float: left">Ligue de Baseball</h2>
         <a href="" class="btn btn-danger" style="margin-top: 20px; float: right">Déconnexion</a>
+        <div class="clearfix"></div>
       </div>
       <div class="col-md-12" style="margin-top: 20px;">
         <ul class="list-inline">
