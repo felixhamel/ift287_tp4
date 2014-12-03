@@ -9,14 +9,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import ligueBaseball.entities.Field;
+import ligueBaseball.entities.Official;
 import ligueBaseball.entities.Team;
 import ligueBaseball.entities.Match;
+import ligueBaseball.exceptions.CannotAddOfficialException;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.FailedToRetrieveMatchException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
 import ligueBaseball.exceptions.TeamDoesntExistException;
 import ligueBaseball.models.MatchModel;
+import ligueBaseball.models.OfficialModel;
 
 @Path("/match")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,7 +38,8 @@ public class MatchController {
     	}
     	return models;
     }
-	
+
+    
     @GET
     @Path("{teamName}")
     public List<MatchModel> getMatchForTeam(@PathParam("teamName") String team)throws FailedToRetrieveMatchException,TeamDoesntExistException,FailedToRetrievePlayersOfTeamException 
@@ -100,5 +105,22 @@ public class MatchController {
             throw e;
         }
     }
-
+	
+    @POST 
+    @Path("/match/{id}/officials")
+    public void addOfficial(OfficialModel OfficialModel) 
+    { 
+    	Official Official = new Official();
+	    Official.setFirstName(OfficialModel.getFirstName()); 
+	    Official.setLastName(OfficialModel.getLastName()); 
+	    Match Match = new Match();
+	    Match.addOfficial(Official);
+	    
+	    try { 
+	    	Match.save(); 
+	    } 
+	    catch (FailedToSaveEntityException e) { 
+	    	throw new CannotAddOfficialException("Cannot add Official.", e); 
+	    } 
+    }
 }

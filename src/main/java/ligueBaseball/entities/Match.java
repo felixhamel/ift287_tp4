@@ -327,7 +327,7 @@ public class Match extends DatabaseEntity
             statement.setInt(1, id);
             ResultSet officialResultSet = statement.executeQuery();
             while (officialResultSet.next()) {
-                officials.add(Official.getOfficialWithId(databaseConnection, officialResultSet.getInt("arbitreid")));
+                officials.add(Official.getOfficialWithId(officialResultSet.getInt("arbitreid")));
             }
         } catch (SQLException e) {
             Logger.error(LOG_TYPE.EXCEPTION, e.getMessage());

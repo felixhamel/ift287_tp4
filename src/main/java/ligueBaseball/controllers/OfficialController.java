@@ -12,8 +12,11 @@ import javax.ws.rs.core.MediaType;
 
 import ligueBaseball.entities.Official;
 import ligueBaseball.exceptions.CannotCreateOfficialException;
+import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
+import ligueBaseball.exceptions.ConnotFindOfficialWithIdException;
 import ligueBaseball.models.OfficialModel;
+import ligueBaseball.models.PlayerModel;
 
 @Path("/official")
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,30 +39,33 @@ public class OfficialController
     @Path("{id}")
     public OfficialModel getOfficialWithId(@PathParam("id") final int officialId)
     {
-        // TODO
-        return null;
+    	Official official = Official.getOfficialWithId(officialId);
+        if (official == null) {
+            throw new ConnotFindOfficialWithIdException(officialId);
+        }
+        return new OfficialModel(official);
     }
 
+    /**
+     * Create a new official with the given informations.
+     *
+     * @param firstName - First name of the new official.
+     * @param lastName - Last name of the new official.
+     * @return Official - The created official.
+     * @throws CannotCreateOfficialException
+     */
     @POST
     public void createOfficial(OfficialModel OfficialModel)
     {
-        Official Official = new Official();
-        Official.setFirstName(OfficialModel.getFirstName());
-        Official.setLastName(OfficialModel.getLastName());
+        Official official = new Official();
+        official.setFirstName(OfficialModel.getFirstName());
+        official.setLastName(OfficialModel.getLastName());
 
         try {
-            Official.save();
+        	official.save();
         } catch (FailedToSaveEntityException e) {
             throw new CannotCreateOfficialException("Cannot create Official.", e);
         }
     }
-
-    // To Move inside the match controller under /match/{id}/officials @PUT
-    /*
-     * @POST public void addOfficial(OfficialModel OfficialModel) { Official Official = new Official();
-     * Official.setFirstName(OfficialModel.getFirstName()); Official.setLastName(OfficialModel.getLastName()); Match Match = new Match();
-     * Match.addOfficial(Official);
-     * 
-     * try { Match.save(); } catch (FailedToSaveEntityException e) { throw new CannotAddOfficialException("Cannot add Official.", e); } }
-     */
+     
 }

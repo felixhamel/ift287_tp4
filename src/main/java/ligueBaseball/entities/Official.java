@@ -58,7 +58,7 @@ public class Official extends DatabaseEntity
      * @param id - ID of the official.
      * @return Official - If found, otherwise return null.
      */
-    public static Official getOfficialWithId(Connection databaseConnection, int id)
+    public static Official getOfficialWithId(int id)
     {
         PreparedStatement statement = null;
 
