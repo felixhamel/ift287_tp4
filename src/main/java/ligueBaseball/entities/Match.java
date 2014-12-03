@@ -344,7 +344,7 @@ public class Match extends DatabaseEntity
      * @param official - Official that was present at this match.
      * @throws FailedToSaveEntityException Failed to save entity.
      */
-    public void addOfficial(Connection databaseConnection, Official official) throws FailedToSaveEntityException
+    public void addOfficial(Official official) throws FailedToSaveEntityException
     {
         PreparedStatement statement = null;
         try {

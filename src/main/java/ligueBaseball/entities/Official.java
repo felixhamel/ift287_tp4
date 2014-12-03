@@ -28,7 +28,7 @@ public class Official extends DatabaseEntity
      * @param databaseConnection - Connection with database
      * @return List - All the officials.
      */
-    public static List<Official> getAllOfficials(Connection databaseConnection)
+    public static List<Official> getAllOfficials()
     {
         List<Official> officials = new ArrayList<>();
         PreparedStatement statement = null;
