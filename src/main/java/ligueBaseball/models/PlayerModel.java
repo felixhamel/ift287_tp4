@@ -1,5 +1,6 @@
 package ligueBaseball.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -89,9 +90,12 @@ public class PlayerModel extends AbstractModel
 
     @XmlAttribute(name = "datedebut")
     @JsonProperty("dateBegin")
-    public Date getDateBegin()
+    public String getDateBegin()
     {
-        return dateBegin;
+        if (dateBegin != null) {
+            return new SimpleDateFormat("dd-MMM-yyyy").format(dateBegin);
+        }
+        return "";
     }
 
     public void setDateBegin(Date dateBegin)

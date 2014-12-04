@@ -81,7 +81,7 @@ app.controller(
 
     // Create user
     $scope.createNewPlayer = function() {
-      PlayersFactory.create($scope.user).
+      PlayersFactory.create($scope.user);
       $location.path('/player-list');
     };
 
@@ -103,6 +103,19 @@ app.controller(
     $scope.createNewTeam = function() {
       $location.path('/team-create/');
     };
+
+    $scope.uploadFileToUrl = function(file) {
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post("/rest/match/xml", fd, {
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        })
+        .success(function(){
+        })
+        .error(function(){
+        });
+    }
 
     // Retrieve all the teams
     $scope.teams = TeamsFactory.query();

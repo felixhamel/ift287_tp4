@@ -47,7 +47,7 @@ services.factory('TeamsFactory', function($resource) {
 });
 services.factory('TeamFactory', function($resource) {
   return $resource('/rest/team/:id', {}, {
-    query: { method: 'GET' },
+    query: { method: 'GET' }
   })
 });
 services.factory('TeamXMLFactory', function($resource) {

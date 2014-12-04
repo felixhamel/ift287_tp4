@@ -16,8 +16,7 @@ angular.module('tp4', ['tp4.services', 'tp4.controllers'])
     // Index page
     $routeProvider.when('/index',
     {
-      templateUrl:   'pages/index.html',
-      controller:    'IndexController'
+      templateUrl:   'pages/index.html'
     });
 
     // Players

@@ -7,17 +7,23 @@
     <div ng-show="updateScoreError" class="alert alert-danger" role="alert" class="ng-hide"><b>Erreur !</b> - Une erreur c'est produite lors de la mise à jour du pointage.</div>
 
     <p>
-      Match entre {{match.teamLocal.name}} et {{match.teamVisitor.name}}
+      Match entre {{match.localTeam.name}} et {{match.visitorTeam.name}}
     </p>
 
     <!-- Formulaire -->
     <form novalidate="novalidate" class="form">
         <div class="form-group">
-            <label class="control-label" for="inputLocalScore">Équipe locale:</label>
-            <input type="text" id="inputLocalTeam" ng-model="match.localTeamScore" class="form-control" />
 
-            <label class="control-label" for="inputVisitorScore">Équipe visiteur:</label>
-            <input type="text" id="inputVisitorTeam" ng-model="match.visitorTeamScore" class="form-control" />
+            <div class="row">
+              <div class="col-md-2">
+                <label class="control-label" for="inputLocalScore">Équipe locale:</label>
+                <input type="text" id="inputLocalTeam" ng-model="match.localTeamScore" class="form-control" />
+              </div>
+              <div class="col-md-2">
+                <label class="control-label" for="inputVisitorScore">Équipe visiteur:</label>
+                <input type="text" id="inputVisitorTeam" ng-model="match.visitorTeamScore" class="form-control" />
+              </div>
+            </div>
 
             <div class="controls">
                 <a ng-click="cancel()" class="btn btn-default">Retour à la liste</a>

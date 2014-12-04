@@ -1,9 +1,10 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
-      <h3>Liste de tous les joueurs</h3>
+    <div class="col-md-4">
+      <h3>Liste de toutes les équipes</h3>
     </div>
-    <div class="col-md-1 col-md-offset-7">
+    <div class="col-md-4 col-md-offset-4">
+      <a ng-click="importTeam()" class="btn btn-default" style="margin-top: 10px;">Importer une équipe</a>
       <a ng-click="createNewTeam()" class="btn btn-default" style="margin-top: 10px;">Créer nouvelle équipe</a>
     </div>
   </div>
@@ -19,17 +20,21 @@
         <th style="min-width: 80px;">Nom</th>
         <th style="min-width: 80px;">Nom terrain</th>
         <th style="min-width: 20px;">Adresse terrain</th>
-        <th style="width:20px;">&nbsp;</th>
-        <!--<th style="width:20px;">&nbsp;</th>-->
+        <th style="width:10px;">&nbsp;</th>
+        <th style="width:10px;">&nbsp;</th>
+        <th style="width:10px;">&nbsp;</th>
+        <th style="width:10px;">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="team in teams">
-        <td>{{ team.name }}</td>
+        <td class="name">{{ team.name }}</td>
         <td>{{ team.field.name }}</td>
         <td>{{ team.field.address }}</td>
+        <td><a ng-click="viewTeam(team.id)" class="btn btn-xs btn-success">Détails</a></td>
+        <td><a ng-click="viewTeamMatchs(team.id)" class="btn btn-xs btn-primary">Parties</a></td>
         <td><a ng-href="/rest/team/{{team.id}}/xml" class="btn btn-xs btn-primary">XML</a></td>
-        <!--<td><a ng-click="deletePlayer(player.id)" class="btn btn-small btn-danger">Supprimer</a></td>-->
+        <td><a ng-click="deleteTeam(team.id)" class="btn btn-xs btn-danger">Supprimer</a></td>
       </tr>
     </tbody>
   </table>
