@@ -115,7 +115,11 @@ app.controller(
         })
         .error(function(){
         });
-    }
+    };
+
+    $scope.viewTeam = function(teamId) {
+      $location.path('/team-view/' + teamId);
+    };
 
     // Retrieve all the teams
     $scope.teams = TeamsFactory.query();
@@ -127,7 +131,7 @@ app.controller(
   'TeamCreateController',
   ['$scope', '$routeParams', 'TeamsFactory', '$location', function($scope, $routeParams, TeamsFactory, $location) {
     $scope.createTeam = function() {
-      TeamsFactory.create($scope.team).
+      TeamsFactory.create($scope.team);
       $location.path('/team-list');
     };
     // Cancel action
@@ -244,7 +248,7 @@ app.controller(
 ]);
 
 // Official arbitrate controller
-app.controller(	
+app.controller(
 	//TODO
 );
 
@@ -255,14 +259,14 @@ app.controller(
 
     // Create user
     $scope.createNewOfficial = function() {
-      PlayersFactory.create($scope.user).
+      PlayersFactory.create($scope.user);
       $location.path('/official-list');
     };
-    
+
     // Cancel action
     $scope.cancel = function() {
       $location.path('/official-list');
     };
-    
+
   }
 ]);
