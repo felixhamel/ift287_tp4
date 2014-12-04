@@ -12,11 +12,9 @@ import javax.ws.rs.core.MediaType;
 
 import ligueBaseball.entities.Official;
 import ligueBaseball.exceptions.CannotCreateOfficialException;
-import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
-import ligueBaseball.exceptions.FailedToSaveEntityException;
 import ligueBaseball.exceptions.ConnotFindOfficialWithIdException;
+import ligueBaseball.exceptions.FailedToSaveEntityException;
 import ligueBaseball.models.OfficialModel;
-import ligueBaseball.models.PlayerModel;
 
 @Path("/official")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,7 +37,7 @@ public class OfficialController
     @Path("{id}")
     public OfficialModel getOfficialWithId(@PathParam("id") final int officialId)
     {
-    	Official official = Official.getOfficialWithId(officialId);
+        Official official = Official.getOfficialWithId(officialId);
         if (official == null) {
             throw new ConnotFindOfficialWithIdException(officialId);
         }
@@ -62,10 +60,10 @@ public class OfficialController
         official.setLastName(OfficialModel.getLastName());
 
         try {
-        	official.save();
+            official.save();
         } catch (FailedToSaveEntityException e) {
             throw new CannotCreateOfficialException("Cannot create Official.", e);
         }
     }
-     
+
 }

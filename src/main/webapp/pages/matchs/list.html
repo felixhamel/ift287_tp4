@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <h3>Liste de tous les matchs</h3>
+    </div>
+    <div class="col-md-1 col-md-offset-7">
+      <a ng-click="createMatch()" class="btn btn-default" style="margin-top: 10px;">Ajouter une nouvelle partie</a>
+    </div>
+  </div>
+  <hr />
+
+  <!-- Show an alert if the deletion was a success ! -->
+  <div ng-show="deleteWorked" class="alert alert-success" role="alert" class="ng-hide"><b>Succès !</b> - La partie a été créée avec succès.</div>
+
+  <!-- Show all the players -->
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th style="min-width: 20px;">Date</th>
+        <th style="min-width: 20px;">Heure</th>
+        <th style="min-width: 20px;">Équipe locale</th>
+        <th style="min-width: 20px;">Équipe visiteur</th>
+        <th style="min-width: 20px;">Pointage</th>
+        <th style="min-width: 20px;">Terrain</th>
+        <th style="min-width: 20px;">Arbitres</th>
+        <th style="width:20px;">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="match in matchs">
+        <td>{{ match.date }}</td>
+        <td>{{ match.time }}</td>
+        <td><a ng-href="/#/team-view/{{ match.teamLocal.id }}">{{ match.teamLocal.name }}</a></td>
+        <td><a ng-href="/#/team-view/{{ match.teamVisitor.id }}">{{ match.teamVisitor.name }}</a></td>
+        <td>{{ match.localTeamScore }} - {{ match.visitorTeamScore }}</td>
+        <td>{{ match.field.name }}</td>
+        <td>
+          <!-- Show all the officials for this match -->
+          <ul style="list-style-type: none; padding-left: 0px;">
+            <li ng-repeat="official in match.officials">
+              {{ official.firstName }} {{ official.lastName }}
+            </li>
+          </ul>
+        </td>
+        <td><a ng-click="manageOfficials(match.id)" class="btn btn-xs btn-primary">Arbitres</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

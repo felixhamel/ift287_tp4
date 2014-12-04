@@ -1,7 +1,6 @@
 package ligueBaseball.entities;
 
 import java.security.InvalidParameterException;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,11 +33,10 @@ public class Match extends DatabaseEntity
     /**
      * Get the match that match with the given ID.
      *
-     * @param databaseConnection - Connection with database - Connection with database
      * @param id - ID of the match to find.
      * @return Match - If found, otherwise return null.
      */
-    public static Match getMatchWithId(Connection databaseConnection, int id)
+    public static Match getMatchWithId(int id)
     {
         PreparedStatement statement = null;
 
@@ -64,7 +62,6 @@ public class Match extends DatabaseEntity
     /**
      * Get a match that occured at a specific time between two given teams.
      *
-     * @param databaseConnection - Connection with database - Connection with database
      * @param date - Date of the match
      * @param time - Time of the match
      * @param equipelocal - Local team
@@ -72,7 +69,7 @@ public class Match extends DatabaseEntity
      * @return Match - If found, otherwise return null.
      * @throws TeamDoesntExistException Team doesn't exists.
      */
-    public static Match getMatchWithDateTimeEquipe(Connection databaseConnection, String date, String time, String equipelocal, String equipevisiteur) throws TeamDoesntExistException
+    public static Match getMatchWithDateTimeEquipe(String date, String time, String equipelocal, String equipevisiteur) throws TeamDoesntExistException
     {
         PreparedStatement statement = null;
 
@@ -318,7 +315,7 @@ public class Match extends DatabaseEntity
      * @return List of the officials that where there for the match.
      */
 
-    public List<Official> getOfficials(Connection databaseConnection)
+    public List<Official> getOfficials()
     {
         List<Official> officials = new ArrayList<>();
         PreparedStatement statement = null;

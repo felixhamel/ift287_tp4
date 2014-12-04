@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -22,6 +24,9 @@ public class Official extends DatabaseEntity
     private String firstName;
     private String lastName;
 
+    // We use the cache feature because we often use those data and very rarely update them.
+    private static Map<Integer, Official> cache = new HashMap<>();
+
     /**
      * Get all the officials.
      *
@@ -30,6 +35,8 @@ public class Official extends DatabaseEntity
      */
     public static List<Official> getAllOfficials()
     {
+        Logger.info(LOG_TYPE.DEBUG, "GetAllOfficials");
+
         List<Official> officials = new ArrayList<>();
         PreparedStatement statement = null;
 
@@ -60,7 +67,12 @@ public class Official extends DatabaseEntity
      */
     public static Official getOfficialWithId(int id)
     {
+        Logger.info(LOG_TYPE.DEBUG, "GetOfficialWithId #" + id);
         PreparedStatement statement = null;
+
+        if (!cache.isEmpty() && cache.containsKey(id)) {
+            return cache.get(id);
+        }
 
         try {
             statement = databaseConnection.prepareStatement("SELECT * FROM arbitre WHERE arbitreid = ?;");
@@ -70,7 +82,8 @@ public class Official extends DatabaseEntity
             if (!officialResult.next()) {
                 return null;
             }
-            return getEntityFromResultSet(officialResult);
+            cache.put(id, getEntityFromResultSet(officialResult));
+            return cache.get(id);
 
         } catch (SQLException e) {
             Logger.error(LOG_TYPE.EXCEPTION, e.getMessage());
@@ -91,6 +104,8 @@ public class Official extends DatabaseEntity
      */
     public static Official getOfficialWithName(Connection databaseConnection, String firstName, String lastName)
     {
+        Logger.info(LOG_TYPE.DEBUG, "GetOfficialWithName " + firstName + " " + lastName);
+
         PreparedStatement statement = null;
 
         try {
@@ -147,6 +162,9 @@ public class Official extends DatabaseEntity
         } finally {
             closeStatement(statement);
         }
+
+        // Add to cache
+        cache.put(id, this);
     }
 
     @Override
@@ -172,6 +190,9 @@ public class Official extends DatabaseEntity
         } finally {
             closeStatement(statement);
         }
+
+        // Update cache
+        cache.put(id, this);
     }
 
     @Override

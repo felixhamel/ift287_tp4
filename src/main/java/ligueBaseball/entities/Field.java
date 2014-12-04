@@ -3,6 +3,8 @@ package ligueBaseball.entities;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,6 +20,9 @@ public class Field extends DatabaseEntity
     String name;
     String address;
 
+    // We use the cache feature because we often use those data and very rarely update them.
+    private static Map<Integer, Field> cache = new HashMap<>();
+
     /**
      * Get the field with the given ID.
      *
@@ -27,6 +32,11 @@ public class Field extends DatabaseEntity
      */
     public static Field getFieldWithId(int id)
     {
+        // Check if we have it in cache
+        if (!cache.isEmpty() && cache.containsKey(id)) {
+            return cache.get(id);
+        }
+
         PreparedStatement statement = null;
 
         try {
@@ -37,7 +47,8 @@ public class Field extends DatabaseEntity
             if (!fieldResult.next()) {
                 return null;
             }
-            return createFieldFromResultSet(fieldResult);
+            cache.put(id, createFieldFromResultSet(fieldResult));
+            return cache.get(id);
 
         } catch (SQLException e) {
             Logger.error(LOG_TYPE.EXCEPTION, e.getMessage());
@@ -111,6 +122,9 @@ public class Field extends DatabaseEntity
         } finally {
             closeStatement(statement);
         }
+
+        // Add it to cache
+        cache.put(id, this);
     }
 
     @Override
@@ -135,6 +149,9 @@ public class Field extends DatabaseEntity
         } finally {
             closeStatement(statement);
         }
+
+        // Update cache
+        cache.put(id, this);
     }
 
     @Override

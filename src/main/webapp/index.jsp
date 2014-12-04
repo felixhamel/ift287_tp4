@@ -19,6 +19,7 @@
       </div>
       <div class="col-md-12" style="margin-top: 20px;">
         <ul class="list-inline">
+          <li><a href="/#/index" class="btn btn-primary">Index</a></li>
           <li><a href="/#/player-list" class="btn btn-primary">Administrer joueurs</a></li>
           <li><a href="/#/team-list" class="btn btn-primary">Administrer &eacute;quipes</a></li>
           <li><a href="/#/match-list" class="btn btn-primary">Administrer matchs</a></li>
@@ -30,6 +31,12 @@
 
 	<div ng-view style="margin-top: 25px">
 	</div>
+
+  <div class="container">
+    <hr />
+    Travail pratique 4, F&eacute;lix Hamel, Tommy, Erika, Alexandre Blais
+  </div>
+  <br /><br />
 
 	<!-- JQuery ================================================================ -->
 	<script src="js/jquery/jquery-2.0.3.js"></script>
