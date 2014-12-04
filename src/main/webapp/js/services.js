@@ -83,7 +83,7 @@ services.factory('MatchsFactory', function($resource) {
 services.factory('MatchFactory', function($resource) {
   return $resource('/rest/match/:id', {}, {
     query: { method: 'GET' },
-    update: { method: 'POST' }
+    update: { method: 'PUT',  params: { id: '@id' } }
   })
 });
 services.factory('MatchOfficialsFactory', function($resource) {

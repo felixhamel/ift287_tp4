@@ -17,6 +17,10 @@ public class OfficialModel extends AbstractModel
     private String firstName;
     private String lastName;
 
+    public OfficialModel() {
+
+    }
+
     public OfficialModel(Official official) throws NotInstanceOfClassException {
         createFromEntity(official);
     }

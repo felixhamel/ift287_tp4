@@ -17,6 +17,7 @@ import ligueBaseball.entities.Match;
 import ligueBaseball.entities.Official;
 import ligueBaseball.entities.Team;
 import ligueBaseball.exceptions.CannotAddOfficialException;
+import ligueBaseball.exceptions.CannotFindMatchWithIdException;
 import ligueBaseball.exceptions.FailedToRetrieveMatchException;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
@@ -54,13 +55,13 @@ public class MatchController
         }
         match.setField(field);
 
-        Team localteam = Team.getTeamWithName(m.getTeamLocal().getName());
+        Team localteam = Team.getTeamWithName(m.getLocalTeam().getName());
         if (localteam == null) {
             // TODO
         }
         match.setLocalTeam(localteam);
 
-        Team visitorTeam = Team.getTeamWithName(m.getTeamVisitor().getName());
+        Team visitorTeam = Team.getTeamWithName(m.getVisitorTeam().getName());
         if (visitorTeam == null) {
 
         }
@@ -77,13 +78,45 @@ public class MatchController
     }
 
     @GET
-    @Path("/match/{id}/officials")
+    @Path("{id}")
+    public MatchModel getMatchWithId(@PathParam("id") final int matchId) throws FailedToRetrieveMatchException, FailedToRetrievePlayersOfTeamException
+    {
+        // Make sure that the match exist
+        Match match = Match.getMatchWithId(matchId);
+        if (match == null) {
+            throw new CannotFindMatchWithIdException(matchId);
+        }
+
+        return new MatchModel(match);
+    }
+
+    @PUT
+    @Path("{id}")
+    public void updateMatchScore(@PathParam("id") final int matchId, MatchModel model)
+    {
+        // Make sure that the match exist
+        Match match = Match.getMatchWithId(matchId);
+        if (match == null) {
+            throw new CannotFindMatchWithIdException(matchId);
+        }
+
+        try {
+            match.setLocalTeamScore(model.getLocalTeamScore());
+            match.setVisitorTeamScore(model.getVisitorTeamScore());
+            match.save();
+        } catch (FailedToSaveEntityException e) {
+            throw new CannotAddOfficialException("Impossible de modifier le pointage du match.", e);
+        }
+    }
+
+    @GET
+    @Path("{id}/officials")
     public List<OfficialModel> getOfficialsForMatch(@PathParam("id") final int matchId)
     {
         // Make sure that the match exist
         Match match = Match.getMatchWithId(matchId);
         if (match == null) {
-
+            throw new CannotFindMatchWithIdException(matchId);
         }
 
         // Retrieve officials
@@ -95,7 +128,7 @@ public class MatchController
     }
 
     @PUT
-    @Path("/match/{id}/officials")
+    @Path("{id}/officials")
     public void addOfficial(@PathParam("id") final int matchId, @QueryParam("id") final int officialId)
     {
         // Make sure that the official exists
@@ -107,7 +140,7 @@ public class MatchController
         // Make sure that the match exists
         Match match = Match.getMatchWithId(officialId);
         if (match == null) {
-            // throw
+            throw new CannotFindMatchWithIdException(matchId);
         }
 
         try {

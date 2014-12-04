@@ -127,17 +127,43 @@ app.controller(
 // Matchs list controller
 app.controller(
   'MatchListController',
-  ['$scope', 'MatchsFactory', '$location', function($scope, MatchsFactory, $location) {
+  ['$scope', '$routeParams', 'MatchsFactory', '$location', function($scope, $routeParams, MatchsFactory, $location) {
 
     $scope.createMatch = function() {
       $location.path('/match-create/');
     };
 
-    $scope.manageOfficials = function(matchId) {
+    $scope.score = function(matchId) {
+      $location.path('/match-score/' + matchId);
+    }
+
+    $scope.officials = function(matchId) {
       $location.path('/match-officials/' + matchId);
     };
 
-    // Retrieve all the players
+    // Retrieve all the matchs
     $scope.matchs = MatchsFactory.query();
+  }
+]);
+
+app.controller(
+  'MatchController',
+  ['$scope', '$routeParams', 'MatchsFactory', 'MatchFactory', '$location', function($scope, $routeParams, MatchsFactory, MatchFactory, $location) {
+
+    $scope.updateScore = function() {
+      MatchFactory.update($scope.match,
+      function success(data) {
+        $scope.updateScoreSuccess = true;
+      },
+      function error(data) {
+        $scope.updateScoreError = true;
+      });
+    };
+
+    $scope.cancel = function() {
+      $location.path('/match-list');
+    }
+
+    $scope.match = MatchFactory.query({ id: $routeParams.id });
   }
 ]);

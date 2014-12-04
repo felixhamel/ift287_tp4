@@ -16,7 +16,6 @@ import ligueBaseball.Logger.LOG_TYPE;
 import ligueBaseball.exceptions.FailedToDeleteEntityException;
 import ligueBaseball.exceptions.FailedToRetrieveNextKeyFromSequenceException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @XmlRootElement
 public class Official extends DatabaseEntity
@@ -35,8 +34,6 @@ public class Official extends DatabaseEntity
      */
     public static List<Official> getAllOfficials()
     {
-        Logger.info(LOG_TYPE.DEBUG, "GetAllOfficials");
-
         List<Official> officials = new ArrayList<>();
         PreparedStatement statement = null;
 
@@ -67,7 +64,6 @@ public class Official extends DatabaseEntity
      */
     public static Official getOfficialWithId(int id)
     {
-        Logger.info(LOG_TYPE.DEBUG, "GetOfficialWithId #" + id);
         PreparedStatement statement = null;
 
         if (!cache.isEmpty() && cache.containsKey(id)) {
@@ -104,8 +100,6 @@ public class Official extends DatabaseEntity
      */
     public static Official getOfficialWithName(Connection databaseConnection, String firstName, String lastName)
     {
-        Logger.info(LOG_TYPE.DEBUG, "GetOfficialWithName " + firstName + " " + lastName);
-
         PreparedStatement statement = null;
 
         try {
@@ -198,7 +192,7 @@ public class Official extends DatabaseEntity
     @Override
     public void delete() throws FailedToDeleteEntityException, Exception
     {
-        throw new NotImplementedException(); // Not needed for the moment
+        // Do nothing
     }
 
     public String getFirstName()

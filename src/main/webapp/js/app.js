@@ -55,6 +55,23 @@ angular.module('tp4', ['tp4.services', 'tp4.controllers'])
       templateUrl:   'pages/matchs/list.html',
       controller:    'MatchListController'
     });
+    $routeProvider.when('/match-create',
+    {
+      templateUrl:   'pages/matchs/create.html',
+      controller:    'MatchCreateController'
+    });
+    $routeProvider.when('/match-score/:id',
+    {
+      templateUrl:   'pages/matchs/score.html',
+      controller:    'MatchController'
+    });
+    $routeProvider.when('/match-official',
+    {
+      templateUrl:   'pages/matchs/officials.html',
+      controller:    'MatchController'
+    });
+
+    // Officials
 
     /*$routeProvider.otherwise(
     {

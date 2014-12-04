@@ -86,12 +86,12 @@ public class MatchModel
         this.visitorTeamScore = score;
     }
 
-    public TeamModel getTeamLocal()
+    public TeamModel getLocalTeam()
     {
         return localTeam;
     }
 
-    public TeamModel getTeamVisitor()
+    public TeamModel getVisitorTeam()
     {
         return visitorTeam;
     }

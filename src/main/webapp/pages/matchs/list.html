@@ -24,6 +24,7 @@
         <th style="min-width: 20px;">Terrain</th>
         <th style="min-width: 20px;">Arbitres</th>
         <th style="width:20px;">&nbsp;</th>
+        <th style="width:20px;">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
@@ -42,7 +43,8 @@
             </li>
           </ul>
         </td>
-        <td><a ng-click="manageOfficials(match.id)" class="btn btn-xs btn-primary">Arbitres</a></td>
+        <td><a ng-click="score(match.id)" class="btn btn-sm btn-success">Pointage</a></td>
+        <td><a ng-click="officials(match.id)" class="btn btn-sm btn-primary">Arbitres</a></td>
       </tr>
     </tbody>
   </table>
