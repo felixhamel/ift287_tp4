@@ -41,7 +41,9 @@ public class TeamModel extends AbstractModel
         if (generatePlayerList) {
             players = new ArrayList<>();
             for (Player player : team.getPlayers()) {
-                this.getPlayers().add(new PlayerModel(player));
+                PlayerModel model = new PlayerModel(player);
+                model.removeTeam();
+                this.getPlayers().add(model);
             }
         }
     }

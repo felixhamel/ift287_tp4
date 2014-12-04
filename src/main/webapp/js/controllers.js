@@ -77,7 +77,7 @@ app.controller(
 // Player creation controller
 app.controller(
   'PlayerCreateController',
-  ['$scope', '$routeParams', 'PlayersFactory', '$location', function($scope, $routeParams, PlayersFactory, $location) {
+  ['$scope', '$routeParams', 'PlayersFactory', 'TeamsFactory', '$location', function($scope, $routeParams, PlayersFactory, TeamsFactory, $location) {
 
     // Create user
     $scope.createNewPlayer = function() {
@@ -89,6 +89,9 @@ app.controller(
     $scope.cancel = function() {
       $location.path('/player-list');
     };
+
+    // Retrieve all the teams
+    $scope.teams = TeamsFactory.query();
   }
 ]);
 

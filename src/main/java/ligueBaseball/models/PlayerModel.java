@@ -111,11 +111,15 @@ public class PlayerModel extends AbstractModel
         this.dateEnd = dateEnd;
     }
 
-    @XmlTransient
     @JsonProperty("team")
     public TeamModel getTeam()
     {
         return team;
+    }
+
+    public void removeTeam()
+    {
+        this.team = null;
     }
 
     @Override
