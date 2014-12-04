@@ -1,6 +1,7 @@
 package ligueBaseball.controllers;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -21,6 +22,15 @@ import ligueBaseball.models.TeamModel;
 @Path("/team")
 public class TeamController
 {
+    private class TeamModelComparator implements Comparator<TeamModel>
+    {
+        @Override
+        public int compare(TeamModel o1, TeamModel o2)
+        {
+            return o1.getName().compareTo(o2.getName());
+        }
+    };
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<TeamModel> getAllTeams() throws FailedToRetrievePlayersOfTeamException
@@ -32,6 +42,10 @@ public class TeamController
         for (Team team : teams) {
             models.add(new TeamModel(team, true));
         }
+
+        //  Sort teams by name
+        models.sort(new TeamModelComparator());
+
         return models;
     }
 
