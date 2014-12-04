@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,8 +16,10 @@ import ligueBaseball.entities.Field;
 import ligueBaseball.entities.Team;
 import ligueBaseball.exceptions.CannotCreateTeamException;
 import ligueBaseball.exceptions.CannotFindTeamWithIdException;
+import ligueBaseball.exceptions.FailedToDeleteEntityException;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
+import ligueBaseball.exceptions.TeamIsNotEmptyException;
 import ligueBaseball.models.TeamModel;
 
 @Path("/team")
@@ -97,6 +100,26 @@ public class TeamController
             team.save();
         } catch (FailedToSaveEntityException e) {
             throw new CannotCreateTeamException("Cannot create team.", e);
+        }
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void deleteTeam(@PathParam("id") final int teamId) throws TeamIsNotEmptyException, FailedToDeleteEntityException
+    {
+        // Check if team exists
+        Team team = Team.getTeamWithId(teamId);
+        if (team == null) {
+            throw new CannotFindTeamWithIdException(teamId);
+        }
+
+        // Delete team
+        try {
+            team.delete();
+        } catch (FailedToDeleteEntityException e) {
+            throw e;
+        } catch (TeamIsNotEmptyException e) {
+            throw e;
         }
     }
 }

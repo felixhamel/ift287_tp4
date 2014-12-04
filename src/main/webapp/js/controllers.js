@@ -98,7 +98,7 @@ app.controller(
 // Teams controller
 app.controller(
   'TeamListController',
-  ['$scope', 'TeamsFactory', '$location', function($scope, TeamsFactory, $location) {
+  ['$scope', '$route', 'TeamsFactory', 'TeamFactory', '$location', function($scope, $route, TeamsFactory, TeamFactory, $location) {
 
     $scope.createNewTeam = function() {
       $location.path('/team-create/');
@@ -120,6 +120,26 @@ app.controller(
     $scope.viewTeam = function(teamId) {
       $location.path('/team-view/' + teamId);
     };
+
+    $scope.deleteTeam = function(teamId) {
+
+      // Reset
+      $scope.deleteWorked = false;
+      $scope.deleteFailed = false;
+
+      // Delete
+      TeamFactory.delete({ id: teamId },
+        function success() {
+          $scope.deleteWorked = true;
+
+          // Remove from screen
+          $("#team-"+teamId).remove();
+        },
+        function error() {
+          $scope.deleteFailed = true;
+        }
+      );
+    }
 
     // Retrieve all the teams
     $scope.teams = TeamsFactory.query();
