@@ -1,7 +1,5 @@
 package ligueBaseball.models;
 
-import java.text.SimpleDateFormat;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -91,7 +89,8 @@ public class PlayerModel extends AbstractModel
     public String getDateBegin()
     {
         if (dateBegin != null) {
-            return new SimpleDateFormat("dd-MMM-yyyy").format(dateBegin);
+            return dateBegin;
+            // return new SimpleDateFormat("dd-MMM-yyyy").format(dateBegin);
         }
         return "";
     }
@@ -136,8 +135,12 @@ public class PlayerModel extends AbstractModel
         this.setFirstName(player.getFirstName());
         this.setLastName(player.getLastName());
         this.setId(player.getId());
-        if (player.getBeginningDate() != null) {
-            this.setDateBegin(player.getBeginningDate().toString());
+        try {
+            if (player.getBeginningDate() != null) {
+                this.setDateBegin(player.getBeginningDate().toString());
+            }
+        } catch (IllegalArgumentException e) {
+            // do nothing
         }
         if (player.getEndDate() != null) {
             this.setDateEnd(player.getEndDate().toString());
