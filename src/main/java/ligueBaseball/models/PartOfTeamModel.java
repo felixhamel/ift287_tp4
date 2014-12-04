@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @XmlRootElement
 public class PartOfTeamModel
 {
@@ -47,6 +49,7 @@ public class PartOfTeamModel
         this.dateBegin = dateBegin;
     }
 
+    @JsonIgnore
     public TeamModel getTeam()
     {
         return team;

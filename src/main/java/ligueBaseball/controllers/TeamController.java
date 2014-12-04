@@ -133,6 +133,8 @@ public class TeamController
         // Add player to team
         team.addPlayer(player);
         team.save();
+
+        System.out.println("ADDED PLAYER TO TEAM.");
     }
 
     @DELETE

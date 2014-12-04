@@ -94,29 +94,14 @@ app.controller(
           // Add player to team
           if($scope.playerTeam != null) {
             $scope.playerTeam.playerId = data.id; // Add player id
-            $http.put('/rest/team/'+$scope.playerTeam.team.id+'/player', $scope.playerTeam);
+            $http.put('/rest/team/'+$scope.playerTeam.team.id+'/player', $scope.playerTeam).
+            success(function(data, status, headers, config) {
+              $location.path('/player-list');
+            });
+          } else {
+            $location.path('/player-list');
           }
       });
-
-      // Create player
-      /*PlayersFactory.create($scope.player);/*,
-        function success(data, status, headers, config) {
-
-          // Check if we need to add player to team
-          if($scope.playerTeam.teamid != null && $scope.playerTeam.teamId >= 0) {
-            var playerModel = data;
-            $scope.playerTeam.id = playerModel.id;
-            TeamPlayerFactory.add($scope.playerTeam, { id: $scope.playerTeam.teamid },
-              function success() {
-                alert("Add to team");
-              },
-              function error() {
-                alert("Remove from team");
-              });
-          }
-      });*/
-
-      $location.path('/player-list');
     };
 
     // Cancel action
