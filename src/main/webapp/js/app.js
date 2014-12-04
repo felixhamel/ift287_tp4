@@ -71,6 +71,21 @@ angular.module('tp4', ['tp4.services', 'tp4.controllers'])
     });
 
     // Officials
+    $routeProvider.when('/official-list',
+    {
+    	templateUrl:  'pages/officials/list.html',
+    	controller:   'OfficialListController'
+    });
+    $routeProvider.when('/official-arbitrate',
+    {
+    	templateUrl:  'pages/officials/arbitrate.html',
+    	controller:   'OfficialArbitrateController'
+    });
+    $routeProvider.when('/official-create',
+    {
+    	templateUrl:  'pages/officials/create.html',
+    	controller:   'OfficialCreateController'
+    });
 
     /*$routeProvider.otherwise(
     {

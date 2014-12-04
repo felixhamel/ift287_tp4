@@ -1,0 +1,22 @@
+<div class="container">
+    <h3>Nouvel arbitre</h3>
+    <hr />
+
+    <!-- Formulaire -->
+    <form novalidate="novalidate" class="form">
+        <div class="form-group">
+            <label class="control-label" for="inputFirstName">Prénom:</label>
+            <input type="text" id="inputFirstName" ng-model="official.firstName" class="form-control" />
+
+            <label class="control-label" for="inputLastName">Nom de famille:</label>
+            <input type="text" id="inputLastName" ng-model="official.lastName" class="form-control" />
+
+            <br />
+   
+            <div class="controls">
+                <a ng-click="cancel()" class="btn btn-default">Annuler</a>
+                <a ng-click="createOfficial()" class="btn btn-primary">Créer l'arbitre</a>
+            </div>
+        </div>
+    </form>
+</div>
