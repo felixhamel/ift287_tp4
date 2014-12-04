@@ -136,8 +136,12 @@ public class PlayerModel extends AbstractModel
         this.setFirstName(player.getFirstName());
         this.setLastName(player.getLastName());
         this.setId(player.getId());
-        this.setDateBegin(player.getBeginningDate());
-        this.setDateEnd(player.getEndDate());
+        if (player.getBeginningDate() != null) {
+            this.setDateBegin(player.getBeginningDate().toString());
+        }
+        if (player.getEndDate() != null) {
+            this.setDateEnd(player.getEndDate().toString());
+        }
         this.setNumber(player.getNumber());
 
         Team team = player.getTeam();

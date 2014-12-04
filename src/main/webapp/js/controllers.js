@@ -269,6 +269,7 @@ app.controller(
 
     $scope.create = function() {
       MatchsFactory.create($scope.match);
+      $location.path('/match-list')
     };
 
     // Retrieve all the teams
