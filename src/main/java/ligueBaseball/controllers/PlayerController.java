@@ -120,7 +120,7 @@ public class PlayerController
      */
     @PUT
     @Path("{id}")
-    public PlayerModel updatePlayer(@PathParam("id") final int playerId, Player receivedPlayer) throws FailedToRetrievePlayersOfTeamException
+    public PlayerModel updatePlayer(@PathParam("id") final int playerId, PlayerModel receivedPlayer) throws FailedToRetrievePlayersOfTeamException
     {
         Player player = Player.getPlayerWithId(playerId);
         if (player == null) {
