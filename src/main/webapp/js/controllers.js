@@ -165,6 +165,17 @@ app.controller(
   }
 ]);
 
+// Team view controller
+app.controller(
+		'TeamViewController',
+		['$scope', '$routeParams', 'PlayersFactory', 'TeamFactory', '$location', function($scope, $routeParams, PlayersFactory, TeamFactory, $location) {
+			// Retrieve all the players from a team
+			//$scope.players = PlayersFactory.query();
+			//$scope.team = TeamFactory.query({ id: $routeParams.id });
+			//TODO
+		}
+]);
+
 // Team creation controller
 app.controller(
   'TeamCreateController',
@@ -285,11 +296,6 @@ app.controller(
     $scope.officials = OfficialsFactory.query();
   }
 ]);
-
-// Official arbitrate controller
-app.controller(
-	//TODO
-);
 
 // Official creation controller
 app.controller(
