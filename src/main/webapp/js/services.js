@@ -51,6 +51,12 @@ services.factory('TeamFactory', function($resource) {
     delete: { method: 'DELETE', params: { id: '@id' } }
   })
 });
+services.factory('TeamPlayerFactory', function($resource) {
+  return $resource('/rest/team/:id/player', {}, {
+    query: { method: 'GET', isArray: true },
+    add:   { method: 'PUT', params: { id: '@id' } }
+  })
+});
 services.factory('TeamXMLFactory', function($resource) {
   return $resource('/rest/team/:id/xml', {}, {
     query: { method: 'GET' },

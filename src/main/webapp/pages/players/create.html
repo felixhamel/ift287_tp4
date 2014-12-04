@@ -14,15 +14,15 @@
             <br />
             <h4>Si vous voulez attribuer une équipe a ce joueur, remplir les informations plus bas</h4>
             <label class="control-label" for="inputTeamSelection">Équipe:</label>
-            <select ng-options="team.name for team in teams" ng-model="player.teamid" class="form-control">
+            <select ng-options="team.name for team in teams" ng-model="playerTeam.team" class="form-control">
               <option value="">Choisir une équipe</option>
             </select>
 
             <label class="control-label" for="inputNumber">Numéro:</label>
-            <input type="text" id="inputNumber" ng-model="player.number" class="form-control" />
+            <input type="text" id="inputNumber" ng-model="playerTeam.number" class="form-control" />
 
-            <label class="control-label" for="inputDateBegin">Date de début:</label>
-            <input type="text" id="dateBegin" ng-model="player.dateBegin" class="form-control datepicker" data-date-format="mm/dd/yyyy" />
+            <label class="control-label" for="inputDateBegin">Date de début: (Forme: yyyy-mm-dd) <small>Si laissé vide, utilise la date d'aujourd'hui.</small></label>
+            <input type="text" id="dateBegin" ng-model="playerTeam.dateBegin" class="form-control" value="" />
 
             <div class="controls">
                 <a ng-click="cancel()" class="btn btn-default">Annuler</a>

@@ -28,7 +28,7 @@ app.controller(
 
     $scope.deletePlayer = function(playerId) {
       PlayerFactory.delete({ id: playerId });
-      $scope.players = PlayersFactory.query();
+      $("#player-"+playerId).remove();
     };
 
     // Retrieve all the players
@@ -77,11 +77,45 @@ app.controller(
 // Player creation controller
 app.controller(
   'PlayerCreateController',
-  ['$scope', '$routeParams', 'PlayersFactory', 'TeamsFactory', '$location', function($scope, $routeParams, PlayersFactory, TeamsFactory, $location) {
+  ['$scope', '$routeParams', 'PlayersFactory', 'TeamsFactory', 'TeamPlayerFactory', '$location', '$http',
+  function($scope, $routeParams, PlayersFactory, TeamsFactory, TeamPlayerFactory, $location, $http) {
 
     // Create user
-    $scope.createNewPlayer = function() {
-      PlayersFactory.create($scope.user);
+    $scope.createPlayer = function() {
+
+      console.log("Team: ");
+      console.log($scope.player);
+      console.log("PlayerTeam: ");
+      console.log($scope.playerTeam);
+
+      // Create player
+      $http.post('/rest/player', $scope.player).
+        success(function(data, status, headers, config) {
+          // Add player to team
+          if($scope.playerTeam != null) {
+            $scope.playerTeam.playerId = data.id; // Add player id
+            $http.put('/rest/team/'+$scope.playerTeam.team.id+'/player', $scope.playerTeam);
+          }
+      });
+
+      // Create player
+      /*PlayersFactory.create($scope.player);/*,
+        function success(data, status, headers, config) {
+
+          // Check if we need to add player to team
+          if($scope.playerTeam.teamid != null && $scope.playerTeam.teamId >= 0) {
+            var playerModel = data;
+            $scope.playerTeam.id = playerModel.id;
+            TeamPlayerFactory.add($scope.playerTeam, { id: $scope.playerTeam.teamid },
+              function success() {
+                alert("Add to team");
+              },
+              function error() {
+                alert("Remove from team");
+              });
+          }
+      });*/
+
       $location.path('/player-list');
     };
 

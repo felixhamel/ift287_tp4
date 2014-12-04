@@ -1,5 +1,6 @@
 package ligueBaseball.controllers;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,19 +8,23 @@ import java.util.List;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ligueBaseball.entities.Field;
+import ligueBaseball.entities.Player;
 import ligueBaseball.entities.Team;
 import ligueBaseball.exceptions.CannotCreateTeamException;
+import ligueBaseball.exceptions.CannotFindPlayerWithIdException;
 import ligueBaseball.exceptions.CannotFindTeamWithIdException;
 import ligueBaseball.exceptions.FailedToDeleteEntityException;
 import ligueBaseball.exceptions.FailedToRetrievePlayersOfTeamException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
 import ligueBaseball.exceptions.TeamIsNotEmptyException;
+import ligueBaseball.models.PartOfTeamModel;
 import ligueBaseball.models.TeamModel;
 
 @Path("/team")
@@ -101,6 +106,33 @@ public class TeamController
         } catch (FailedToSaveEntityException e) {
             throw new CannotCreateTeamException("Cannot create team.", e);
         }
+    }
+
+    @PUT
+    @Path("{id}/player")
+    public void addPlayerToTeam(@PathParam("id") final int teamId, PartOfTeamModel partOfTeam)
+    {
+        // Make sure that the team exists
+        Team team = Team.getTeamWithId(teamId);
+        if (team == null) {
+            throw new CannotFindTeamWithIdException(teamId);
+        }
+
+        // Find player
+        Player player = Player.getPlayerWithId(partOfTeam.getPlayerId());
+        if (player == null) {
+            throw new CannotFindPlayerWithIdException(partOfTeam.getPlayerId());
+        }
+
+        // Update player
+        player.setNumber(partOfTeam.getNumber());
+        if (partOfTeam.getDateBegin() != null) {
+            player.setBeginningDate(Date.valueOf(partOfTeam.getDateBegin()));
+        }
+
+        // Add player to team
+        team.addPlayer(player);
+        team.save();
     }
 
     @DELETE

@@ -41,7 +41,6 @@ public class PlayerModel extends AbstractModel
         this.createFromEntity(player);
     }
 
-    @XmlTransient
     public int getId()
     {
         return id;
@@ -134,6 +133,7 @@ public class PlayerModel extends AbstractModel
         }
 
         Player player = (Player) entity;
+        this.setId(player.getId());
         this.setFirstName(player.getFirstName());
         this.setLastName(player.getLastName());
         this.setId(player.getId());

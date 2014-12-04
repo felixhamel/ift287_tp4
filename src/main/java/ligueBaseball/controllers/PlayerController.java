@@ -1,8 +1,10 @@
 package ligueBaseball.controllers;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,6 +28,22 @@ import com.google.common.base.Strings;
 @Produces(MediaType.APPLICATION_JSON)
 public class PlayerController
 {
+    private class PlayerModelComparator implements Comparator<PlayerModel>
+    {
+        @Override
+        public int compare(PlayerModel o1, PlayerModel o2)
+        {
+            if (o1.getTeam() != null && o2.getTeam() != null) {
+                return o1.getTeam().getName().compareTo(o2.getTeam().getName());
+            } else if (o1.getTeam() != null) {
+                return -1;
+            } else if (o2.getTeam() != null) {
+                return 1;
+            }
+            return 1;
+        }
+    }
+
     /**
      * Get all the players in the database.
      *
@@ -39,6 +57,9 @@ public class PlayerController
         for (Player player : Player.getAllPlayers()) {
             models.add(new PlayerModel(player));
         }
+
+        models.sort(new PlayerModelComparator());
+
         return models;
     }
 
@@ -71,6 +92,7 @@ public class PlayerController
      * @throws FailedToRetrievePlayersOfTeamException
      */
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public PlayerModel createNewPlayer(PlayerModel receivedPlayer) throws FailedToSaveEntityException, FailedToRetrievePlayersOfTeamException
     {
         Player player = new Player();

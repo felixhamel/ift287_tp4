@@ -12,7 +12,6 @@ import ligueBaseball.Logger.LOG_TYPE;
 import ligueBaseball.exceptions.FailedToDeleteEntityException;
 import ligueBaseball.exceptions.FailedToRetrieveNextKeyFromSequenceException;
 import ligueBaseball.exceptions.FailedToSaveEntityException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.google.common.base.MoreObjects;
 
@@ -163,7 +162,6 @@ public class Player extends DatabaseEntity
     @Override
     protected void update() throws FailedToSaveEntityException
     {
-        Logger.info(LOG_TYPE.DEBUG, "UPDATE");
         PreparedStatement statement = null;
         try {
             statement = databaseConnection.prepareStatement("UPDATE joueur SET joueurnom = ?, joueurprenom = ? WHERE joueurid = ?;");
@@ -172,9 +170,7 @@ public class Player extends DatabaseEntity
             statement.setInt(3, id);
             statement.executeUpdate();
 
-            Logger.info(LOG_TYPE.DEBUG, "COMMIT");
             databaseConnection.commit();
-            Logger.info(LOG_TYPE.DEBUG, toString());
 
         } catch (SQLException e) {
             try {
@@ -194,13 +190,54 @@ public class Player extends DatabaseEntity
     public void delete() throws FailedToDeleteEntityException, Exception
     {
         Team team = getTeam();
-        if (team == null) {
-            // throw
-            return;
+        if (team != null) {
+            team.removePlayer(this);
         }
-        team.removePlayer(this);
 
-        throw new NotImplementedException();
+        // Delete from All faitpartie
+        PreparedStatement statement = null;
+        try {
+            statement = databaseConnection.prepareStatement("DELETE FROM faitpartie WHERE joueurid = ?;");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+            databaseConnection.commit();
+            System.out.println(statement);
+
+        } catch (SQLException e) {
+            try {
+                Logger.info(LOG_TYPE.DEBUG, "ERROR");
+                e.printStackTrace();
+                databaseConnection.rollback();
+            } catch (SQLException e1) {
+                Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
+            }
+            throw new FailedToSaveEntityException(e);
+        } finally {
+            closeStatement(statement);
+        }
+
+        // Remove player
+        try {
+            statement = databaseConnection.prepareStatement("DELETE FROM joueur WHERE joueurid = ?;");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+            databaseConnection.commit();
+            System.out.println(statement);
+
+        } catch (SQLException e) {
+            try {
+                Logger.info(LOG_TYPE.DEBUG, "ERROR");
+                e.printStackTrace();
+                databaseConnection.rollback();
+            } catch (SQLException e1) {
+                Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
+            }
+            throw new FailedToSaveEntityException(e);
+        } finally {
+            closeStatement(statement);
+        }
     }
 
     /**
