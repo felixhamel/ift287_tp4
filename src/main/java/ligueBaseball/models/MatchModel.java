@@ -1,7 +1,5 @@
 package ligueBaseball.models;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +19,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class MatchModel
 {
-    private int id;
-    private Date date;
-    private Time time;
+    private int id = 0;
+    private String date;
+    private String time;
     private int localTeamScore = 0;
     private int visitorTeamScore = 0;
 
@@ -46,22 +44,22 @@ public class MatchModel
         return id;
     }
 
-    public Date getDate()
+    public String getDate()
     {
         return date;
     }
 
-    public void setDate(Date date)
+    public void setDate(String date)
     {
         this.date = date;
     }
 
-    public Time getTime()
+    public String getTime()
     {
         return time;
     }
 
-    public void setTime(Time t)
+    public void setTime(String t)
     {
         this.time = t;
     }
@@ -114,8 +112,8 @@ public class MatchModel
 
         Match match = (Match) entity;
         this.id = match.getId();
-        this.setTime(match.getTime());
-        this.setDate(match.getDate());
+        this.setTime(match.getTime().toString());
+        this.setDate(match.getDate().toString());
         this.setLocalTeamScore(match.getLocalTeamScore());
         this.setVisitorTeamScore(match.getVisitorTeamScore());
         this.localTeam = new TeamModel(match.getLocalTeam());

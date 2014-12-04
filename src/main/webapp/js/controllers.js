@@ -274,6 +274,21 @@ app.controller(
   }
 ]);
 
+app.controller(
+  'MatchCreateController',
+  ['$scope', 'MatchsFactory', 'TeamsFactory', '$location', function($scope, MatchsFactory, TeamsFactory, $location) {
+
+    $scope.create = function() {
+      MatchsFactory.create($scope.match);
+      $location.path('/match-list')
+    };
+
+    // Retrieve all the teams
+    $scope.teams = TeamsFactory.query();
+  }
+]);
+
+
 // Official controller
 app.controller(
   'OfficialListController',
@@ -303,9 +318,10 @@ app.controller(
   ['$scope', '$routeParams', 'OfficialsFactory', '$location', function($scope, $routeParams, OfficialsFactory, $location) {
 
     // Create user
-    $scope.createNewOfficial = function() {
-      PlayersFactory.create($scope.user);
-      $location.path('/official-list');
+    $scope.createOfficial = function() {
+      OfficialsFactory.create($scope.official, function success() {
+        $location.path('/official-list');
+      });
     };
 
     // Cancel action
