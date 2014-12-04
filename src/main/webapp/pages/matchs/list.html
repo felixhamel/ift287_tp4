@@ -31,8 +31,8 @@
       <tr ng-repeat="match in matchs">
         <td>{{ match.date }}</td>
         <td>{{ match.time }}</td>
-        <td><a ng-href="/#/team-view/{{ match.teamLocal.id }}">{{ match.teamLocal.name }}</a></td>
-        <td><a ng-href="/#/team-view/{{ match.teamVisitor.id }}">{{ match.teamVisitor.name }}</a></td>
+        <td><a ng-href="/#/team-view/{{ match.teamLocal.id }}">{{ match.localTeam.name }}</a></td>
+        <td><a ng-href="/#/team-view/{{ match.teamVisitor.id }}">{{ match.visitorTeam.name }}</a></td>
         <td>{{ match.localTeamScore }} - {{ match.visitorTeamScore }}</td>
         <td>{{ match.field.name }}</td>
         <td>
