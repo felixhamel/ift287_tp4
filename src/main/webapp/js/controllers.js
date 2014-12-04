@@ -146,6 +146,45 @@ app.controller(
   }
 ]);
 
+// Match view controller
+app.controller(
+  'OfficialViewController',
+  ['$scope', '$routeParams', 'MatchFactory', '$location', function($scope, $routeParams, MatchFactory, $location) {
+
+    // Update match
+    $scope.updateMatch = function() {
+    	MatchFactory.update($scope.match,
+        function success() { $scope.updateWorked = true; },
+        function error() { $scope.updateFailed = true; }
+      );
+      $location.path('/match-view/' + match.id);
+    };
+
+    // Delete match
+    $scope.deleteMatch = function() {
+    	MatchFactory.delete({ id: $routeParams.id },
+        function success() {
+          $scope.deleteWorked = true;
+          $location.path('/match-list');
+        },
+        function error() {
+          $scope.deleteFailed = true;
+          $location.path('/match-view');
+        }
+      );
+    };
+
+    // Cancel view
+    $scope.cancel = function() {
+      $location.path('/official-list');
+    };
+
+    // Go get informations on the match
+    $scope.match = MatchFactory.query({ id: $routeParams.id });
+  }
+]);
+
+// Match creation controller
 app.controller(
   'MatchController',
   ['$scope', '$routeParams', 'MatchsFactory', 'MatchFactory', '$location', function($scope, $routeParams, MatchsFactory, MatchFactory, $location) {
@@ -165,5 +204,52 @@ app.controller(
     }
 
     $scope.match = MatchFactory.query({ id: $routeParams.id });
+  }
+]);
+
+// Official controller
+app.controller(
+  'OfficialListController',
+  ['$scope', 'OfficialsFactory', 'OfficialFactory', '$location', function($scope, OfficialsFactory, OfficialFactory, $location) {
+
+    $scope.createOfficial = function() {
+      $location.path('/official-create/');
+    };
+
+    $scope.editOfficial = function(officialId) {
+      $location.path('/official-view/' + officialId);
+    };
+
+    $scope.deleteOfficial = function(officialId) {
+      OfficialFactory.delete({ id: officialId });
+      $scope.officials = OfficialsFactory.query();
+    };
+
+    // Retrieve all the officials
+    $scope.officials = OfficialsFactory.query();
+  }
+]);
+
+// Official arbitrate controller
+app.controller(	
+	//TODO
+);
+
+// Official creation controller
+app.controller(
+  'OfficialCreateController',
+  ['$scope', '$routeParams', 'OfficialsFactory', '$location', function($scope, $routeParams, OfficialsFactory, $location) {
+
+    // Create user
+    $scope.createNewOfficial = function() {
+      PlayersFactory.create($scope.user).
+      $location.path('/official-list');
+    };
+    
+    // Cancel action
+    $scope.cancel = function() {
+      $location.path('/official-list');
+    };
+    
   }
 ]);
