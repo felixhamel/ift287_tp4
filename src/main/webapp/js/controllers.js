@@ -312,9 +312,10 @@ app.controller(
   ['$scope', '$routeParams', 'OfficialsFactory', '$location', function($scope, $routeParams, OfficialsFactory, $location) {
 
     // Create user
-    $scope.createNewOfficial = function() {
-      PlayersFactory.create($scope.user);
-      $location.path('/official-list');
+    $scope.createOfficial = function() {
+      OfficialsFactory.create($scope.official, function success() {
+        $location.path('/official-list');
+      });
     };
 
     // Cancel action
