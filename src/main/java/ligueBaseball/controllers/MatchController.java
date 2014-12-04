@@ -1,5 +1,7 @@
 package ligueBaseball.controllers;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +49,14 @@ public class MatchController
         /*
          * player.setFirstName(receivedPlayer.getFirstName()); player.setLastName(receivedPlayer.getLastName());
          */
-        match.setDate(m.getDate());
-        match.setTime(m.getTime());
-        Field field = Field.getFieldWithName(m.getField().getName());
+        System.out.println(m.getTime());
+        if (m.getTime().length() <= 7) {
+            m.setTime(m.getTime() + ":00");
+        }
+
+        match.setDate(Date.valueOf(m.getDate()));
+        match.setTime(Time.valueOf(m.getTime()));
+        Field field = Field.getFieldWithName(m.getLocalTeam().getField().getName());
         if (field == null) {
             // TODO
         }

@@ -1,7 +1,6 @@
 package ligueBaseball.models;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,8 +27,8 @@ public class PlayerModel extends AbstractModel
     private String firstName;
 
     private int number;
-    private Date dateBegin;
-    private Date dateEnd;
+    private String dateBegin;
+    private String dateEnd;
 
     private TeamModel team;
 
@@ -97,19 +96,19 @@ public class PlayerModel extends AbstractModel
         return "";
     }
 
-    public void setDateBegin(Date dateBegin)
+    public void setDateBegin(String dateBegin)
     {
         this.dateBegin = dateBegin;
     }
 
     @XmlTransient
     @JsonProperty("dateEnd")
-    public Date getDateEnd()
+    public String getDateEnd()
     {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd)
+    public void setDateEnd(String dateEnd)
     {
         this.dateEnd = dateEnd;
     }

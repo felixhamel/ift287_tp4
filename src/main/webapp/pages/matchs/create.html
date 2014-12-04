@@ -1,0 +1,35 @@
+<div class="container">
+
+  <h3>Création d'un nouveau match</h3>
+
+  <form>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" ng-model="match.date" class="form-control" placeholder="Date du match (YYYY-MM-DD)">
+      </div>
+      <div class="col-md-6">
+        <input type="text" ng-model="match.time" class="form-control" placeholder="Heure du match (HH:MM)">
+      </div>
+    </div>
+
+    <p>
+      Équipe locale :
+    </p>
+    <select ng-options="team.name for team in teams" ng-model="match.localTeam" class="form-control">
+      <option value="">Choisir une équipe</option>
+    </select>
+
+    <p>
+      Équipe visiteur :
+    </p>
+    <select ng-options="team.name for team in teams" ng-model="match.visitorTeam" class="form-control">
+      <option value="">Choisir une équipe</option>
+    </select>
+
+    <div class="controls">
+        <a ng-click="cancel()" class="btn btn-default">Annuler</a>
+        <a ng-click="create()" class="btn btn-primary">Créer le match</a>
+    </div>
+
+  </form>
+</div>

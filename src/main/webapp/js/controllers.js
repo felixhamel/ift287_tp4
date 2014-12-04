@@ -263,6 +263,20 @@ app.controller(
   }
 ]);
 
+app.controller(
+  'MatchCreateController',
+  ['$scope', 'MatchsFactory', 'TeamsFactory', '$location', function($scope, MatchsFactory, TeamsFactory, $location) {
+
+    $scope.create = function() {
+      MatchsFactory.create($scope.match);
+    };
+
+    // Retrieve all the teams
+    $scope.teams = TeamsFactory.query();
+  }
+]);
+
+
 // Official controller
 app.controller(
   'OfficialListController',
