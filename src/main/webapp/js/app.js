@@ -49,6 +49,9 @@ app.config(['$routeProvider', function($routeProvider) {
     templateUrl:  'pages/teams/view.html',
     controller:   'TeamViewController'
    });
+   $routeProvider.when('/team-import', {
+     templateUrl:  'pages/teams/import.html'
+   });
 
   // Matchs
   $routeProvider.when('/match-list', {

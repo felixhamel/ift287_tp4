@@ -1,6 +1,9 @@
-<h3>Importation d'une équipe</h3>
+<div class="container">
+  <h3>Importation d'une équipe</h3>
 
-<form>
-  <label>Fichier XML</label>
-  <input type="file" file-model="myFile"/> 
-</form>
+  <form action="/rest/team/xml" enctype="multipart/form-data" method="post">
+    <label>Fichier XML : </label>
+    <input type="file" id="file" name="file"/>
+    <input type="submit" value="Importer l'équipe" />
+  </form>
+</div>

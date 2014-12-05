@@ -1,10 +1,12 @@
 package ligueBaseball.controllers;
 
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,6 +15,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import ligueBaseball.entities.Field;
 import ligueBaseball.entities.Player;
@@ -26,6 +30,10 @@ import ligueBaseball.exceptions.FailedToSaveEntityException;
 import ligueBaseball.exceptions.TeamIsNotEmptyException;
 import ligueBaseball.models.PartOfTeamModel;
 import ligueBaseball.models.TeamModel;
+
+import org.w3c.dom.Document;
+
+import com.sun.jersey.multipart.FormDataParam;
 
 @Path("/team")
 public class TeamController
@@ -106,6 +114,20 @@ public class TeamController
         } catch (FailedToSaveEntityException e) {
             throw new CannotCreateTeamException("Cannot create team.", e);
         }
+    }
+
+    @POST
+    @Path("xml")
+    @Consumes("multipart/form-data")
+    public void createTeamFromXML(@FormDataParam("file") InputStream inputFile) throws Exception
+    {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document xml = builder.parse(inputFile);
+
+        // Create team
+        Team team = new Team();
+        team.setName(xml.getUserData("name").toString());
     }
 
     @PUT

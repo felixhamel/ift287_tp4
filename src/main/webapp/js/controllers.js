@@ -48,6 +48,14 @@ app.controller(
         $location.path('/login');
       });
     }
+
+    // Default values
+    $scope.database = {
+      "hostname": "university.optimaweb.co",
+      "database": "tp3",
+      "username": "tp",
+      "password": "Eb0laAttack"
+    };
   }
 ]);
 
@@ -177,6 +185,10 @@ app.controller(
     $scope.viewTeam = function(teamId) {
       $location.path('/team-view/' + teamId);
     };
+
+    $scope.importTeam = function() {
+      $location.path('/team-import');
+    }
 
     $scope.deleteTeam = function(teamId) {
 

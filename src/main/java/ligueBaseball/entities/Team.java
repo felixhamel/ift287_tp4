@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ligueBaseball.Application;
 import ligueBaseball.Logger;
 import ligueBaseball.Logger.LOG_TYPE;
 import ligueBaseball.exceptions.FailedToDeleteEntityException;
@@ -29,7 +30,7 @@ public class Team extends DatabaseEntity
     /**
      * Get all the teams.
      *
-     * @param databaseConnection - Connection with database
+     * @param Application.connection - Connection with database
      * @return List - All the teams.
      */
     public static List<Team> getAllTeams()
@@ -38,7 +39,7 @@ public class Team extends DatabaseEntity
         PreparedStatement statement = null;
 
         try {
-            statement = databaseConnection.prepareStatement("SELECT equipeid FROM equipe;");
+            statement = Application.connection.prepareStatement("SELECT equipeid FROM equipe;");
             ResultSet teams = statement.executeQuery();
             while (teams.next()) {
                 teamList.add(getTeamWithId(teams.getInt("equipeid")));
@@ -55,7 +56,7 @@ public class Team extends DatabaseEntity
     /**
      * Get the team with the given ID.
      *
-     * @param databaseConnection - Connection with database
+     * @param Application.connection - Connection with database
      * @param id - ID of the team we want to retrieve.
      * @return Team - If found, return entity, otherwise return null.
      */
@@ -69,7 +70,7 @@ public class Team extends DatabaseEntity
         PreparedStatement statement = null;
 
         try {
-            statement = databaseConnection.prepareStatement("SELECT * FROM equipe WHERE equipeid = ?;");
+            statement = Application.connection.prepareStatement("SELECT * FROM equipe WHERE equipeid = ?;");
             statement.setInt(1, id);
 
             ResultSet teamResult = statement.executeQuery();
@@ -90,7 +91,7 @@ public class Team extends DatabaseEntity
     /**
      * Get the team with the given name.
      *
-     * @param databaseConnection - Connection with database
+     * @param Application.connection - Connection with database
      * @param name - Name of the team we want to retrieve.
      * @return Team - If found, return entity, otherwise return null.
      */
@@ -99,7 +100,7 @@ public class Team extends DatabaseEntity
         PreparedStatement statement = null;
 
         try {
-            statement = databaseConnection.prepareStatement("SELECT * FROM equipe WHERE equipenom = ?;");
+            statement = Application.connection.prepareStatement("SELECT * FROM equipe WHERE equipenom = ?;");
             statement.setString(1, name);
 
             ResultSet teamResult = statement.executeQuery();
@@ -135,16 +136,16 @@ public class Team extends DatabaseEntity
         PreparedStatement statement = null;
         try {
             id = getNextIdForTable("equipe", "equipeid");
-            statement = databaseConnection.prepareStatement("INSERT INTO equipe (equipeid, equipenom, terrainid) VALUES(?, ?, ?);");
+            statement = Application.connection.prepareStatement("INSERT INTO equipe (equipeid, equipenom, terrainid) VALUES(?, ?, ?);");
             statement.setInt(1, id);
             statement.setString(2, name);
             statement.setInt(3, fieldId);
             statement.execute();
-            databaseConnection.commit();
+            Application.connection.commit();
 
         } catch (SQLException | FailedToRetrieveNextKeyFromSequenceException e) {
             try {
-                databaseConnection.rollback();
+                Application.connection.rollback();
             } catch (SQLException e1) {
                 Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
             }
@@ -161,16 +162,16 @@ public class Team extends DatabaseEntity
     {
         PreparedStatement statement = null;
         try {
-            statement = databaseConnection.prepareStatement("UPDATE equipe SET equipenom = ?, terrainid = ? WHERE equipeid = ?;");
+            statement = Application.connection.prepareStatement("UPDATE equipe SET equipenom = ?, terrainid = ? WHERE equipeid = ?;");
             statement.setString(1, name);
             statement.setInt(2, fieldId);
             statement.setInt(3, id);
             statement.executeUpdate();
-            databaseConnection.commit();
+            Application.connection.commit();
 
         } catch (SQLException e) {
             try {
-                databaseConnection.rollback();
+                Application.connection.rollback();
             } catch (SQLException e1) {
                 Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
             }
@@ -197,14 +198,14 @@ public class Team extends DatabaseEntity
             PreparedStatement statement = null;
             try {
                 // Delete equipe
-                statement = databaseConnection.prepareStatement("DELETE FROM equipe WHERE equipeid = ?;");
+                statement = Application.connection.prepareStatement("DELETE FROM equipe WHERE equipeid = ?;");
                 statement.setInt(1, id);
                 statement.executeUpdate();
-                databaseConnection.commit();
+                Application.connection.commit();
 
             } catch (SQLException e) {
                 try {
-                    databaseConnection.rollback();
+                    Application.connection.rollback();
                 } catch (SQLException e1) {
                     Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
                 }
@@ -243,7 +244,7 @@ public class Team extends DatabaseEntity
     /**
      * Get all players for current team.
      *
-     * @param databaseConnection - Connection with database
+     * @param Application.connection - Connection with database
      * @return List - All the players.
      * @throws FailedToRetrievePlayersOfTeamException Failed to retrieve players of team.
      */
@@ -252,7 +253,7 @@ public class Team extends DatabaseEntity
         List<Player> players = new ArrayList<>();
         PreparedStatement statement = null;
         try {
-            statement = databaseConnection.prepareStatement("SELECT joueurid FROM faitpartie WHERE equipeid = ? AND datefin IS NULL;");
+            statement = Application.connection.prepareStatement("SELECT joueurid FROM faitpartie WHERE equipeid = ? AND datefin IS NULL;");
             statement.setInt(1, id);
 
             ResultSet playersResultSet = statement.executeQuery();
@@ -276,7 +277,7 @@ public class Team extends DatabaseEntity
     /**
      * Add a new player in this team.
      *
-     * @param databaseConnection - Connection with database
+     * @param Application.connection - Connection with database
      * @param player - Player to add to team.
      * @throws FailedToSaveEntityException Failed to save entity.
      */
@@ -288,7 +289,7 @@ public class Team extends DatabaseEntity
         // Insert
         PreparedStatement statement = null;
         try {
-            statement = databaseConnection.prepareStatement("INSERT INTO faitpartie (joueurid, equipeid, numero, datedebut) VALUES(?, ?, ?, ?);");
+            statement = Application.connection.prepareStatement("INSERT INTO faitpartie (joueurid, equipeid, numero, datedebut) VALUES(?, ?, ?, ?);");
             statement.setInt(1, player.getId());
             statement.setInt(2, id);
             statement.setInt(3, player.getNumber());
@@ -300,11 +301,11 @@ public class Team extends DatabaseEntity
             }
 
             statement.execute();
-            databaseConnection.commit();
+            Application.connection.commit();
 
         } catch (SQLException e) {
             try {
-                databaseConnection.rollback();
+                Application.connection.rollback();
             } catch (SQLException e1) {
                 Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
             }
@@ -319,7 +320,7 @@ public class Team extends DatabaseEntity
     /**
      * Remove a player from this team.
      *
-     * @param databaseConnection - Connection with database
+     * @param Application.connection - Connection with database
      * @param player - Player to remove from team.
      */
     public void removePlayer(Player player)
@@ -327,17 +328,17 @@ public class Team extends DatabaseEntity
         if (player.id >= 0) {
             PreparedStatement statement = null;
             try {
-                statement = databaseConnection.prepareStatement("UPDATE faitpartie SET datefin = ? WHERE joueurid = ? AND equipeid = ?;");
+                statement = Application.connection.prepareStatement("UPDATE faitpartie SET datefin = ? WHERE joueurid = ? AND equipeid = ?;");
                 statement.setDate(1, new Date(Calendar.getInstance().getTime().getTime()));
                 statement.setInt(2, player.getId());
                 statement.setInt(3, id);
 
                 statement.executeUpdate();
-                databaseConnection.commit();
+                Application.connection.commit();
 
             } catch (SQLException e) {
                 try {
-                    databaseConnection.rollback();
+                    Application.connection.rollback();
                 } catch (SQLException e1) {
                     Logger.error(LOG_TYPE.EXCEPTION, e1.getMessage());
                 }
@@ -351,7 +352,7 @@ public class Team extends DatabaseEntity
     /**
      * Get the field related to this team.
      *
-     * @param databaseConnection - Connection with database
+     * @param Application.connection - Connection with database
      * @return Field - Entity if found, null otherwise.
      */
     public Field getField()
@@ -365,7 +366,7 @@ public class Team extends DatabaseEntity
     /**
      * Set the field related to this team.
      *
-     * @param databaseConnection - Connection with database
+     * @param Application.connection - Connection with database
      * @param field - Field to associate with this team.
      * @throws FailedToSaveEntityException Failed to save entity.
      */
