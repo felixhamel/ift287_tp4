@@ -45,6 +45,10 @@ app.config(['$routeProvider', function($routeProvider) {
     templateUrl:  'pages/teams/create.html',
     controller:   'TeamCreateController'
   });
+  $routeProvider.when('/team-view/:id',{
+    templateUrl:  'pages/teams/view.html',
+    controller:   'TeamViewController'
+   });
 
   // Matchs
   $routeProvider.when('/match-list', {

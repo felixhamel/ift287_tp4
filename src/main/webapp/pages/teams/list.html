@@ -25,6 +25,7 @@
         <th style="width:10px;">&nbsp;</th>
         <th style="width:10px;">&nbsp;</th>
         <th style="width:10px;">&nbsp;</th>
+        <th style="width:10px;">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
@@ -33,6 +34,7 @@
         <td>{{ team.name }}</td>
         <td>{{ team.field.name }}</td>
         <td>{{ team.field.address }}</td>
+        <td><a ng-click="viewTeam(team.id)" class="btn btn-xs btn-primary">Détails</a></td>
         <td><a ng-click="viewTeamMatchs(team.id)" class="btn btn-xs btn-primary">Parties</a></td>
         <td><a ng-href="/rest/team/{{team.id}}/xml" class="btn btn-xs btn-primary">XML</a></td>
         <td><a ng-click="deleteTeam(team.id)" class="btn btn-xs btn-danger">Supprimer</a></td>
