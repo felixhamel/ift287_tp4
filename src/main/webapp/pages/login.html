@@ -1,5 +1,26 @@
-<h3>Connexion à une base de donnée</h3>
+<div class="container">
 
-<p>
-  Veuillez fournir les informations nécessaire afin de vous connecter.
-</p>
+  <div class="alert alert-info" role="alert" class="ng-hide"><b>Information !</b> - Vous devez vous connecter à une base de données avant de continuer.</div>
+
+  <h3>Connexion à une base de donnée</h3>
+  <p>
+    Veuillez fournir les informations nécessaire afin de vous connecter.
+  </p>
+
+  <!-- Show an alert if the deletion was a success ! -->
+  <div ng-show="connectedToDatabase" class="alert alert-success" role="alert" class="ng-hide"><b>Succès !</b> - Vous êtes connecté à la base de données !</div>
+  <div ng-show="failedToConnect" class="alert alert-danger" role="alert" class="ng-hide"><b>Erreur !</b> - Une erreur c'est produite lors de la connexion à la base de données.
+    <br /><br />
+    <b>Cause: </b>{{error.cause}}<br />
+    <b>Exception: </b>{{error.exception}}
+  </div>
+
+  <form>
+    <input class="form-control" placeholder="Nom du serveur" ng-model="database.hostname" />
+    <input class="form-control" placeholder="Nom de la base de données" ng-model="database.database" />
+    <input class="form-control" placeholder="Nom d'utilisateur" ng-model="database.username" />
+    <input class="form-control" placeholder="Mot de passe" ng-model="database.password" />
+
+    <a ng-click="login()" class="btn btn-success">Connexion</a>
+  </form>
+</div>

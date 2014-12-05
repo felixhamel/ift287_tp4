@@ -7,10 +7,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import ligueBaseball.Application;
+import ligueBaseball.models.ConnectionModel;
 
 @Path("/settings")
 public class ApplicationController
@@ -34,10 +34,9 @@ public class ApplicationController
 
     @POST
     @Path("connection")
-    public boolean connectToDatabase(@QueryParam("hostname") final String hostname, @QueryParam("database") final String database, @QueryParam("username") final String username, @QueryParam("password") final String password)
+    public boolean connectToDatabase(ConnectionModel connection)
     {
-        return true;
-        // return Application.connectToDatabase(hostname, database, username, password);
+        return Application.connectToDatabase(connection.getHostname(), connection.getDatabase(), connection.getUsername(), connection.getPassword());
     }
 
     @DELETE

@@ -10,8 +10,46 @@ var app = angular.module('tp4.controllers', []);
 app.run(function ($rootScope, $templateCache) {
     $rootScope.$on('$viewContentLoaded', function () {
         $templateCache.removeAll();
-    });
+    })
 });
+
+// Login controller
+app.controller(
+  'LoginController',
+  ['$scope', 'LoginFactory', '$location', function($scope, LoginFactory, $location) {
+
+    // Check if logged
+    $scope.isConnected = function() {
+      if(LoginFactory.check()) {
+        $location.path('/index');
+      }
+    };
+
+    $scope.login = function() {
+      $scope.connectedToDatabase = false;
+      $scope.failedToConnect = false;
+
+      LoginFactory.connect($scope.database,
+      function success(data) {
+        $scope.connectedToDatabase = true;
+        $location.path('/index');
+      },
+      function error(data) {
+        $scope.failedToConnect = true;
+        $scope.error = data.data;
+      })
+    };
+
+    console.log($location.path());
+
+    // Check if we want to disconnect
+    if($location.path() == '/disconnect') {
+      LoginFactory.close(function success() {
+        $location.path('/login');
+      });
+    }
+  }
+]);
 
 // Player controller
 app.controller(

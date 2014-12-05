@@ -11,14 +11,6 @@ public class Application
 {
     public static Connection connection;
 
-    static {
-        try {
-            connectToDatabase("university.optimaweb.co", "tp3", "tp", "Eb0laAttack");
-        } catch (FailedToConnectToDatabaseException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Connect to the database with the given informations.
      *

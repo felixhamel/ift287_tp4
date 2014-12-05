@@ -20,6 +20,17 @@ var services
 var services = angular.module('tp4.services', ['ngResource']);
 
 /**
+ * Login services
+ */
+services.factory('LoginFactory', function($resource) {
+  return $resource('/rest/settings/connection', {}, {
+    check: { method: 'GET' },
+    connect: { method: 'POST' },
+    close: { method: 'DELETE' }
+  })
+});
+
+/**
  * Players
  */
 services.factory('PlayersFactory', function ($resource) {
