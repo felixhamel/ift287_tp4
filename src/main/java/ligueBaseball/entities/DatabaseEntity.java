@@ -19,6 +19,11 @@ public abstract class DatabaseEntity
     protected int id = -1;
     protected static Connection databaseConnection = Application.connection;
 
+    public DatabaseEntity() {
+        // Just in case the instance changed.
+        databaseConnection = Application.connection;
+    }
+
     /**
      * Return the ID related to this entity.
      *
